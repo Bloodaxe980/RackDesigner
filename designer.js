@@ -188,9 +188,9 @@ function drawSide() {
         y = yn;
 		var aa = getActualRowAngle();
 		/*for (var i = 0; i < panels.length; i++){
-			var aa = getActualRowAngle(i);	
+			var aa = getActualRowAngle(i);
 		}*/
-		
+
         maxX = Math.max(maxX, xn);
             if ((maxX > backPanelLocation) && (aa < 91)){
                 backPanelLocation = maxX;
@@ -210,9 +210,9 @@ function drawSide() {
         };
     });
     console.info("panels", panels, "rowAngles", rowAngles);
-	
+
 	// Set the starting point of the drawing
-	
+
     var frontPieceOutline = [];
     var backPieceOutline = [];
 
@@ -246,8 +246,8 @@ function drawSide() {
         add(
             x + Math.cos(rad(getActualRowAngle(i))) * actualPanelHeight,
             y + Math.sin(rad(getActualRowAngle(i))) * actualPanelHeight,
-            // If it is the last row, then the outline will continue for the 
-			//width of the material, so we'll just write the coord marker at 
+            // If it is the last row, then the outline will continue for the
+			//width of the material, so we'll just write the coord marker at
 			// the end of that instead of the end of the row outline.
             i === rowAngles.length - 1
         );
@@ -331,7 +331,7 @@ function writeSummary(width, height, back, outlinePoints, railScrewCoords) {
     var panelHeightInfo = [
         "3U panel height: ",
         actualDistance(actualPanelHeight, true),
-    ]; 
+    ];
     var panelDepthInfo = ["Panel depth used: ", actualDistance(actualPanelDepth, true)];
     var backPanelInfo = ["Max depth of back panel: ", back];
     var railDepthInfo = ["Rails depth inset: ", actualDistance(actualRailDepth, true)];
@@ -591,27 +591,27 @@ function createRowInput(i, uValue, aValue) {
     const unitsIdPrefix = "units-";
     const inputIdPrefix = "angle-";
     const rowInputs = document.getElementById("row-inputs");
-    
+
     spn.className = "input-span";
     spn.innerHTML = `Row ${i + 1} &nbsp;`;
 
     const uni = document.createElement("input");
-	uni.className = "number";
+    uni.className = "number";
 	//uni.type = number;  //crashes the program
     uni.value = uValue;
     uni.size = 1;
     uni.maxlength = 1;
-	uni.max = 4;
-	uni.min = 1; 
-	uni.step = 1;
+	  uni.max = 4;
+	  uni.min = 1;
+	  uni.step = 1;
     uni.id = `${unitsIdPrefix}${i}`;
 
     spn.appendChild(uni);
 
-	const us = document.createElement("span");
+    const us = document.createElement("span");
     us.innerHTML = " U:  ";
     spn.appendChild(us);
-	
+
     const inp = document.createElement("input");
     inp.value = aValue;
     inp.size = 2;
@@ -625,36 +625,36 @@ function createRowInput(i, uValue, aValue) {
             rowUnitsH[unitIndex] = parseFloat(event.target.value, 10);
 			unitHeight = rowUnitsH[unitIndex];
 			console.info(
-				"Unit Index: ", unitIndex, 
-				" rowUnitsH: ", rowUnitsH, 
+				"Unit Index: ", unitIndex,
+				" rowUnitsH: ", rowUnitsH,
 				" unitHeight: ", unitHeight,
 				" Actual panel height: ",
 				actualPanelHeight
 			);
 
-            const inputIndex = parseInt(event.target.id.split(inputIdPrefix)[1], 10);
-            rowAngles[inputIndex] = parseFloat(event.target.value, 10);
+        const inputIndex = parseInt(event.target.id.split(inputIdPrefix)[1], 10);
+        rowAngles[inputIndex] = parseFloat(event.target.value, 10);
 
-            console.info(
-                "Input change: ",
-                event.target.value,
-                event.target.id,
-                inputIndex,
-                rowAngles
+        console.info(
+            "Input change: ",
+            event.target.value,
+            event.target.id,
+            inputIndex,
+            rowAngles
             );
-			drawSide();
+          drawSide();
         }, 0); } //
     };
-	//uni.addEventListener("input", onChange);
+	  uni.addEventListener("input", onChange);
     uni.addEventListener("change", onChange);
     uni.addEventListener("keypress", onChange);
-	uni.addEventListener("losefocus", onChange);
+    uni.addEventListener("losefocus", onChange);
     //inp.addEventListener("input", onChange);
     inp.addEventListener("blur", onChange);
     inp.addEventListener("keypress", onChange);
 
     spn.appendChild(inp);
-	const aa = getActualRowAngle(i);
+    const aa = getActualRowAngle(i);
     const deg = document.createElement("span");
     deg.className = "angle";
     deg.innerHTML = " deg. Angle: " + aa;
@@ -688,7 +688,7 @@ function resetRowInputs(c) {
     for (let i = 0; i < rowCount; i++) {
         rowInputs[i] = createRowInput(i, rowUnitsH[i], rowAngles[i]);
     }
-	//The following is a hack to force the Unit input boxes to be type number 
+	//The following is a hack to force the Unit input boxes to be type number
 	//because the program crashes when uni.type = number is uncommented.
 	const collection = document.getElementsByClassName("number");
 	for (let i = 0; i < collection.length; i++) {
@@ -704,9 +704,9 @@ function init() {
 //Pick and set Bkground colors
 //color1.addEventListener("input", setGradient);
 //color2.addEventListener("input", setGradient);
-	
+
 	//setGradient();
-	
+
     // Handle rows
     const rowCountSelector = document.getElementById("rowCount");
     rowCountSelector.value = rowCount;
@@ -735,7 +735,7 @@ function init() {
         }, 0);
     };
     inputDepth.addEventListener("input", onModuleDepthChange);
-	
+
     measureCb = document.getElementById("measure");
     measureCb.checked = showInches;
     const onMeasureChange = (event) => {
@@ -745,8 +745,8 @@ function init() {
             drawSide();
         }, 0);
     };
-    measureCb.addEventListener("change", onMeasureChange);	
-	
+    measureCb.addEventListener("change", onMeasureChange);
+
     calcRiseCb = document.getElementById("calcRise");
     calcRiseCb.checked = !useStaticRise;
     const onCalcRiseChange = (event) => {
@@ -756,7 +756,7 @@ function init() {
         }, 0);
     };
     calcRiseCb.addEventListener("change", onCalcRiseChange);
-	
+
 	var firstAngle = rowAngles[0];
 
 	frontPanelCb = document.getElementById("frontPanel");
@@ -769,7 +769,7 @@ function init() {
     };
     frontPanelCb.addEventListener("change", onFrontPanelChange);
 	prowTrue ? xStart = 20 : xStart = 0;
-	
+
 	standardHtCb = document.getElementById("standardHt");
     standardHtCb.checked = setStandard;
     const onStandardHtChange = (event) => {
@@ -779,8 +779,8 @@ function init() {
             drawSide();
         }, 0);
     };
-    standardHtCb.addEventListener("change", onStandardHtChange);	
-	
+    standardHtCb.addEventListener("change", onStandardHtChange);
+
     matThickness = document.getElementById("material-thickness");
     matThickness.value = caseMaterialThickness;
     const onMaterialThicknessChange = (event) => {
@@ -867,14 +867,14 @@ window.onload = function() {
     } else {
       document.body.style.backgroundColor = color;
     };
-	let cssPre = getCssValuePrefix(); 
+	let cssPre = getCssValuePrefix();
 	console.info(
 		"CSS Prefix = ", cssPre
 	);
 };
 */
 	// send the starting value of the slider to output
-	//output.innerHTML = slider.value; 
+	//output.innerHTML = slider.value;
 
 // Detect which browser prefix to use for the specified CSS value
 // (e.g., background-image: -moz-linear-gradient(...);
@@ -923,7 +923,7 @@ function randomGradient() {
 	console.info("funct randomGradient prefix, orentation",prefix, " ", orentation, " random1: ", random1, " random2: ", random2);
 	var myStyle = prefix + "linear-gradient(" + orentation + "deg, " + random1 + ", " + random2 +");";
 	console.info("myStyle: ", myStyle);
-	document.body.style.background = myStyle;	
+	document.body.style.background = myStyle;
 	var newStyle = bod.style.background;
 	console.info("newStyle: ", newStyle.value, " background: ", background);
 }
@@ -937,7 +937,7 @@ function set2Gradient(){
 		bod = prefix + "linear-gradient(" + orentation + "deg, #" + color1 + ", #" + color2 + ")";
 		color1 = document.querySelector("color1");
 		color2 = document.querySelector("color2");
-		
+
 		console.info("setGradient mid orentation: ", orentation, " color1: ", color1,value, " color2 ", color2.value, " Gradient$ ", newGradient, "myGradient: ", myGradient);
 		bod.style.background = newGradient;
 }
@@ -976,12 +976,12 @@ function randomColor() {
 function getRandomColor() {
     'use strict';
 	var rndColor1 = randomColor(), rndColor2 = randomColor(), orentation = Math.floor(Math.random() * 360);
-    bod.style.background = "linear-gradient(" + orentation + "deg, " + rndColor1 + ", " + rndColor2 + ")";	
+    bod.style.background = "linear-gradient(" + orentation + "deg, " + rndColor1 + ", " + rndColor2 + ")";
     document.getElementById("rotation").value = orentation;
     output.innerHTML = orentation;
-	var c1 = document.querySelector(".color1") 
+	var c1 = document.querySelector(".color1")
 	c1.value = rndColor1;
-	var c2 = document.querySelector(".color2") 
+	var c2 = document.querySelector(".color2")
 	c2.value = rndColor2;
 }
 
@@ -999,10 +999,10 @@ function drawImageScaled(img, ctx) {
    var vRatio =  canvas.height / img.height  ;
    var ratio  = Math.min ( hRatio, vRatio );
    var centerShift_x = ( canvas.width - img.width*ratio ) / 2;
-   var centerShift_y = ( canvas.height - img.height*ratio ) / 2;  
+   var centerShift_y = ( canvas.height - img.height*ratio ) / 2;
    ctx.clearRect(0,0,canvas.width, canvas.height);
    ctx.drawImage(img, 0,0, img.width, img.height,
-                 centerShift_x, centerShift_y, img.width*ratio, img.height*ratio);  
+                 centerShift_x, centerShift_y, img.width*ratio, img.height*ratio);
 }
 */
 /* The following are notes for 3D manipulation.  Place the trihedron at the center of a "sphere" touching drawing at outermost points.  i.e. this 3d drawing would fit in a box LxWxH, this box would fit a sphere with radius of r place trihedron x,y,z at 0,0,0 and redraw the obj.  Use mouse down to grab and drag obj, redraw obj */
