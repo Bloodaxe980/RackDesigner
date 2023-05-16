@@ -40,7 +40,6 @@ var rowCount = rowCounts[2];
 var rowAngles = [10, 20, 30];
 var firstAngle = rowAngles[0];
 var rowInputs = [];
-var sergeHP = 25.4; //mm
 var slider = document.getElementById("rotation");
 var textColor;
 var unitHeight = 3;
@@ -460,7 +459,7 @@ function roundToPlace(v, p) {
 function drawPanelRail(panel) {
     let p = [];
     var circR = 3;
-	var actualPanelHeight = rowUnitsH[i] * 44.45;
+    var actualPanelHeight = rowUnitsH[i] * 44.45;
     var screwDist = (actualPanelHeight - actualRailSeparation) / 2;
     var screwDistX = Math.cos(rad(panel.angle)) * screwDist;
     var screwDistY = Math.sin(rad(panel.angle)) * screwDist;
@@ -605,6 +604,7 @@ function createRowInput(i, uValue, aValue) {
 	  uni.min = 1;
 	  uni.step = 1;
     uni.id = `${unitsIdPrefix}${i}`;
+    uni.title = 'Press ENTER to update.';
 
     spn.appendChild(uni);
 
@@ -616,6 +616,7 @@ function createRowInput(i, uValue, aValue) {
     inp.value = aValue;
     inp.size = 2;
     inp.maxlength = 3;
+    inp.title = 'Press ENTER to update.'
     inp.id = `${inputIdPrefix}${i}`;
     const onChange = (event) => {
 		if (event.key !="Enter") {return}
