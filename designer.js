@@ -21,14 +21,15 @@ var defaultUnit = 3;
 var eID = "";
 var hpBuchla = 108; //mm or 4.25 in
 var hpBx = 16;  //mm or .63 in
-var hpEr = 5.08; //mm or .2 in
+var hpEuro = 5.08; //mm or .2 in
 var hpSerge = 25.4; //mm or 1 in
 var maxY = 150;
 var pxDepth = 300 / maxY;
 var panelHeight = actualPanelHeight * pxDepth;
 var heightRatio = actualPanelHeight / panelHeight;
-var hp = hpEr;
+var hp = hpEuro;
 var unitInt = 39.65; //mm
+var oneUnit = 44.45; //mm
 var oneUnitStandard = unitInt;
 var output = document.getElementById("degsOut");
 var panel1 = [];
@@ -186,9 +187,9 @@ function drawSide() {
         x = xn;
         y = yn;
 		var aa = getActualRowAngle();
-		/*for (var i = 0; i < panels.length; i++){
+		for (var i = 0; i < panels.length; i++){
 			var aa = getActualRowAngle(i);
-		}*/
+		}
 
         maxX = Math.max(maxX, xn);
             if ((maxX > backPanelLocation) && (aa < 91)){
@@ -459,7 +460,7 @@ function roundToPlace(v, p) {
 function drawPanelRail(panel) {
     let p = [];
     var circR = 3;
-    var actualPanelHeight = rowUnitsH[i] * 44.45;
+    var actualPanelHeight = rowUnitsH[i] * oneUnit;
     var screwDist = (actualPanelHeight - actualRailSeparation) / 2;
     var screwDistX = Math.cos(rad(panel.angle)) * screwDist;
     var screwDistY = Math.sin(rad(panel.angle)) * screwDist;
