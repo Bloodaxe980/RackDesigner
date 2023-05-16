@@ -1,0 +1,13 @@
+const divs = document.querySelectorAll("div");
+
+//What to listen for and do on event.  Add these as needed.
+addGlobalEventListener("click", "div", e=> {
+	console.log("hi")  /*do this on event*/
+	});
+
+//listener function takes three parameters
+function addGlobalEventListener(type, selector, callback){
+	document.addEventListener(type, e => {
+		if (e.target.matches(selector)) callback(e)
+	})
+}

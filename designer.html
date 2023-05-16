@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rack Designer 0.1</title>
+        <link rel="stylesheet" href="moretoggles.min.css">
+		<link rel="stylesheet" href="designer.css" />
+        <script src="designer.js" type="text/javascript" charset="utf-8"></script>
+    </head>
+    <body class="body" name="body" id="body">
+        <div id="container">
+            <div id="row1">
+				<div id="column1">
+					<div id="logo-div">
+						<h2>Modular Synth Rack Designer </h2>
+						<h3>MENU &nbsp; <div class="mt-check-garden" style="font-size:  6px;"> 
+  						<input id="menu" type="checkbox" onclick="showHide('menuOptions')" checked />
+  						<label for="menu"></label>
+							</div>
+						</h3>
+					</div>
+					<div id="input-div">	
+					<div id="menuOptions">
+						<fieldset><legend>Theme</legend>Dark &nbsp; <div class="mt-normal-garden" style="font-size:  6px;"> 
+  						<input id="theme" name="theme" type="checkbox" onclick="themeCb()"  />
+							<label for="theme"></label></div> &nbsp; Lite</fieldset><p />
+						<fieldset id="background">
+						<legend>Background</legend>
+						Closed &nbsp; 
+						<div class="mt-normal-garden" style="font-size: 6px;">
+							<input type="checkbox" name="open" id="open" onclick="lookCb()" /><label for="open"></label>
+						</div> &nbsp; Open
+							</fieldset>
+						<div id="look" class="hide">
+							<p />
+						<fieldset id="colors">
+							<legend class="tooltip">Menu Background<span class="tooltiptext">Change the background to your pleasing</span></legend>
+							<div id="color">
+							Color 1:
+  							<div class="colorpick">
+    							<input type="color" class="color1" id="color1" name="color1" 
+                                value="#ABCDEF" />
+  							</div>
+							Color 2:  
+							<div class="colorpick">
+    							<input type="color" class="color2" id="color2" name="color2" value="#FEDCBA" />
+  							</div><input type="button" class="random" size="1" value="?" onclick="getRandomColor()" />
+						</div>
+						</fieldset><p />
+						<div class="slidecontainer">
+  						<input type="range" min="1" max="360" value="135" class="slider" id="rotation"><p>Degrees: <span id="degsOut"></span></p>
+						</div>
+<p />
+						<div id="colors">
+							<span class="sqr" style="background-color: #fedcba;"></span>
+							<span class="sqr" style="background-color: #abcdef;"></span>
+							<span class="sqr" style="background-color: mediumspringgreen;"></span>
+							<span class="sqr" style="background-color: lightslategray;"></span>
+							<span class="sqr" style="background-color: #66f7ff;"></span>
+							<span class="sqr" style="background-color: mediumvioletred;"></span>
+							<span class="sqr" style="background-color: goldenrod;"></span>
+							<span class="sqr" style="background-color: steelblue;"></span>
+						</div>
+						</div>
+						<p />
+					<fieldset id="measurement">
+						<legend>Units of Measure</legend>
+						Imperial &nbsp; 
+						<div class="mt-normal-garden" style="font-size: 6px;">
+							<input type="checkbox" name="measure" id="measure" /><label for="measure"></label>
+						</div> &nbsp; Metric
+					</fieldset><p />
+					<fieldset id="dimensions">
+						<legend>Dimensions</legend>
+						2D &nbsp; <div class="mt-normal-garden" style="font-size: 6px;"><input type="checkbox" name="dim" id="2D" value="true" onclick="showHide('viewsSet')" /><label for="2D"></label></div>&nbsp; 3D
+					</fieldset><p />
+					<div id="viewsSet" class="hide">
+					<fieldset id="myViews" name="myViews" >
+						<legend>Views</legend>
+
+						<input type="radio" name="view" id="iso" value="iso"><label for="iso">Isometric</label>                     
+						<input type="radio" name="view" id="right" value="right" checked /><label for="right">Right</label> 
+
+						<input type="radio" name="view" id="front" value="front" ><label for="front">Front</label>
+
+						<input type="radio" name="view" id="left" value="left" ><label for="left">Left</label>                    
+						<nobr><input type="radio" name="view" id="back" value="back" ><label for="back">Back</label></nobr>                  
+						<input type="radio" name="view" id="top" value="top" ><label for="top">Top</label>                    
+						<input type="radio" name="view" id="bottom" value="bottom" ><label for="bottom">Bottom</label>
+
+					</fieldset>
+					<p></p>
+					<span class="input-span">
+						HP: &nbsp;<input type="number" id="hpCount" name="hpCount" maxlength="3" size="3" value="84" min="12" max="840" step="1" />
+					</span>
+						</div>
+						<p />
+					<span class="input-span">
+						Module Depth Max:&nbsp;
+						<input id="the-input-depth" value="0" size="4" maxlength="4" />
+						<span class="input-span unit">mm</span><p></p>
+						Calculate needed rise: &nbsp;<div class="input-span mt-check-garden" style="font-size: 6px;">
+							<input type="checkbox" id="calcRise" /><label for="calcRise"></label>
+						</div>
+					</span><p />
+					<fieldset id="rackFormat">
+						<legend>Format</legend>
+						Buchla <input type="radio" name="format" id="buchla"  /> &nbsp;
+						BX <input type="radio" name="format" id="bx"  /> &nbsp;
+						&nbsp; Eurorack <input type="radio" name="format" id="eurorack" checked  />
+						&nbsp; <nobr>Serge&nbsp;<input type="radio" name="format" id="serge"  /></nobr>
+						&nbsp; Mixed <input type="radio" name="format" id="mixed"  />
+						&nbsp; 
+					</fieldset>
+					<p />
+					</div>
+					<fieldset>
+						<legend>Front Panel</legend>
+						Vertical &nbsp; <div class="frontPanel mt-normal-garden" style="font-size: 6px;"><input type="checkbox" name="frontPanel" id="frontPanel"  /><label for="frontPanel"></label>
+						</div>&nbsp; Prow
+					</fieldset><p />
+					<fieldset id="oneUht">
+						<legend>1 Unit Standard    </legend>
+						Intelijel &nbsp; <div class="frontPanel mt-normal-garden" style="font-size: 6px;"><input type="checkbox" name="standardHt" id="standardHt"  /><label for="standardHt"></label>
+						</div>&nbsp; Pulp Logic
+					</fieldset>
+					<p />
+					<span class="input-span">
+						Row count:&nbsp;
+						<select
+							name="rowCount"
+							id="rowCount" 
+						onChange=""
+						></select>
+					</span>
+					<p />
+					<span id="row-inputs"> </span>
+					<p />
+					<span class="input-span">
+						Material thickness:&nbsp;
+						<input id="material-thickness" size="3" maxlength="4" />
+						<span class="input-span unit">mm</span>
+					</span><p />
+					<span class="input-span">
+						Pixel Depth:&nbsp;
+						<input id="pxDepth" value="0" size="4" maxlength="4" />
+					</span>
+					<fieldset id="scaleDrawing">
+						<legend>Scale Drawing</legend>
+						Full Size &nbsp;
+						<div class="format mt-normal-garden" style="font-size: 6px;"><input type="checkbox" name="scale" id="scale"  /><label for="scale"></label>
+						</div>&nbsp; Fit Window
+					</fieldset>
+				</div> 
+				</div> 
+				<div id="canvas-div">
+					<canvas id="the-canvas" width="100" height="80"></canvas>
+				</div>
+          	</div>
+            <div id="summary-container">
+                <div class="summary-div" id="summary-div"></div>
+                <div class="summary-div" id="summary-div-2"></div>
+            </div>
+        </div>
+		<!--MoreToggles.css is licensed under the MIT license. (https://opensource.org/licenses/MIT)-->
+    </body>
+</html>
