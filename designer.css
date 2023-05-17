@@ -21,7 +21,7 @@ body {
 }
 
 a:link {
-  color: red;
+  color: black;
 	text-decoration: none;
 	background-color: white;
 }
@@ -50,6 +50,61 @@ input.number{
   }
 }
 
+a.btn:link {
+	text-align: center;
+	display: block;
+	color: white;
+	text-decoration: none;
+	background-image: linear-gradient(lightgreen, green);
+	border-radius: 5px;
+	text-shadow: 5,5,5 gray;
+	text-shadow: 10, 10, 10 black;
+	padding: 0.5em;
+	width: 95%;
+	font-weight: bold;
+}
+
+a.btn:visited {
+	text-align: center;
+	display: block;
+	color: white;
+	text-decoration: none;
+	background-image: linear-gradient(lightgreen, green);
+	border-radius: 5px;
+	text-shadow: 5,5,5 gray;
+	text-shadow: 10, 10, 10 black;
+	padding: 0.5em;
+	width: 95%;
+	font-weight: bold;
+}
+
+a.btn:hover {
+	text-align: center;
+	display: block;
+	color: #fedcba;
+	text-decoration: none;
+	background-image: linear-gradient(-45deg, lightgreen, green);
+	border-radius: 5px;
+	text-shadow: 5,5,5 gray;
+	text-shadow: 10, 10, 10 black;
+	padding: 0.5em;
+	width: 95%;
+	font-weight: bold;
+}
+
+a.btn:active {
+	text-align: center;
+	display: block;
+	color: black;
+	text-decoration: none;
+	background-image: linear-gradient(lightgreen, green);
+	border-radius: 5px;
+	text-shadow: 5,5,5 gray;
+	text-shadow: 10, 10, 10 black;
+	padding: 0.5em;
+	width: 95%;
+	font-weight: bold;
+}
 
 .input-span {
     padding-right: 2em;
@@ -142,10 +197,20 @@ DIV.summary-div :before {
 	margin: 0;
 }
 
-
-
 .frontPanel{
 	display: inline-block;
+}
+
+.gradient-text {
+    background-color: #f3ec78;
+    background-image: linear-gradient(180deg, yellow, red);
+    background-size: 100%;
+		background-clip: text;
+		background-color: transparent;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
 }
 
 .hide {
