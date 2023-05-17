@@ -20,10 +20,34 @@ body {
     background-attachment: fixed;
 }
 
+a:link {
+  color: red;
+	text-decoration: none;
+	background-color: white;
+}
+
+a:visited {
+	color: white;
+	text-decoration: none;
+	background-color: green;
+}
+
+a:hover {
+	color: white;
+	text-decoration: underline;
+	background-color: black;
+}
+
+a:active {
+	color: gray;
+	text-decoration: none;
+	background-color: black;
+}
+
 input.number{
   &::-webkit-inner-spin-button{
     opacity:1; // magic!
-  } 
+  }
 }
 
 
@@ -62,7 +86,7 @@ input.number{
 #logo-div {
     margin: .5em;
     margin-left: .5em;
-    margin-right: .5em;	
+    margin-right: .5em;
 }
 
 #input-div {
@@ -78,7 +102,7 @@ input.number{
     flex: 1;
     overflow: hidden;
     width: auto;
-	height: auto;	
+	height: auto;
 }
 
 #the-canvas {
@@ -91,7 +115,7 @@ input.number{
     display: flex;
     flex-direction: row;
 }
-	
+
 .summary-div {
     flex: 50%;
     margin: .5em;
@@ -170,7 +194,7 @@ DIV.summary-div :before {
   -webkit-appearance: none;
   width: 100%;
   height: 15px;
-  border-radius: 5px;  
+  border-radius: 5px;
   background: #d3d3d3;
   outline: none;
   opacity: 0.7;
@@ -183,7 +207,7 @@ DIV.summary-div :before {
   appearance: none;
   width: 25px;
   height: 25px;
-  border-radius: 50%; 
+  border-radius: 50%;
   background: #04AA6D;
   cursor: pointer;
 }
@@ -211,7 +235,7 @@ DIV.summary-div :before {
   border: 1px solid lightgray;
   border-radius: 6px;
   padding: .3em 0;
-  
+
   /* Position the tooltip */
   position: absolute;
   z-index: 1;
