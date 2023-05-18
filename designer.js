@@ -3,7 +3,9 @@
 
 "use strict";
 
-var canvas, canvasDiv, calcRiseCb, ctx, e,frontPanelCb, h, init, input, inputDepth, matThickness, measureCb, pxDepthInput, roundToPlace, setStandard, showInches, standardHtCb, w, xStart;
+var canvas, canvasDiv, calcRiseCb, ctx, e,frontPanelCb, h,
+    init, input, inputDepth, matThickness, measureCb, pxDepthInput,
+    roundToPlace, setStandard, showInches, standardHtCb, w, xStart;
 
 var i = 0;
 var rowUnitsH = [3, 3, 1];
@@ -85,7 +87,8 @@ function themeCb() {
 /*
 function formatCb() {
 
-// depricated:  there are now four different formats requireing a different selection method. i.e. caseOf
+// depricated:  there are now four different formats requireing a
+different selection method. i.e. caseOf
 
 	var checked = document.getElementById("format");
 	checked ? hp=25.4 : hp = 5.08; //mm
@@ -233,7 +236,7 @@ function drawSide() {
         y + Math.sin(rad(firstAngle)) * caseMaterialThickness
     );
     frontPieceOutline.push(x + Math.cos(rad(firstAngle)) * caseMaterialThickness, 0);
-    frontPieceOutline.push(xStart, 0);
+    frontPieceOutline.push(xStart, 0); // 0, 0
     add(
         x + Math.cos(rad(firstAngle)) * caseMaterialThickness,
         y + Math.sin(rad(firstAngle)) * caseMaterialThickness,
@@ -810,8 +813,8 @@ function init() {
     ctx = canvas.getContext("2d");
     w = canvasDiv.clientWidth;
     h = canvasDiv.clientHeight;
-    canvas.width = w;
-    canvas.height = h;  // h
+    canvas.width = w*.8;
+    canvas.height = h*.8;  // h
     ctx.fillStyle = "rgb(0, 0, 0)";
     ctx.strokeStyle = "#999999";
 
@@ -824,8 +827,8 @@ function init() {
         w = canvasDiv.clientWidth;
         h = canvasDiv.clientHeight;
         // console.info(w,h);
-        canvas.width = w;
-        canvas.height = h;
+        canvas.width = w*.8;
+        canvas.height = h*.8;
         ctx.clearRect(0, 0, w, h);
         drawSide();
     };
@@ -931,16 +934,21 @@ function randomGradient() {
 }
 
 */
-/* set2Gradient was my first attempt at this I changed the name of the function to avoid commenting it out */
+/* set2Gradient was my first attempt at this I changed the name of the function
+to avoid commenting it out */
 function set2Gradient(){
 	var prefix = getCssValuePrefix();
-	console.info("Start setGradient orentation, color1, color2", orentation, " ", color1, " ", color2);
+	console.info("Start setGradient orentation, color1, color2", orentation, " ",
+  color1, " ", color2);
 	orentation ? orentation : orentation = 135;
-		bod = prefix + "linear-gradient(" + orentation + "deg, #" + color1 + ", #" + color2 + ")";
+		bod = prefix + "linear-gradient(" + orentation + "deg, #" + color1 + ", #" +
+    color2 + ")";
 		color1 = document.querySelector("color1");
 		color2 = document.querySelector("color2");
 
-		console.info("setGradient mid orentation: ", orentation, " color1: ", color1,value, " color2 ", color2.value, " Gradient$ ", newGradient, "myGradient: ", myGradient);
+		console.info("setGradient mid orentation: ", orentation, " color1: ",
+    color1.value, " color2 ", color2.value, " Gradient$ ", newGradient,
+    "myGradient: ", myGradient);
 		bod.style.background = newGradient;
 }
 
@@ -1007,19 +1015,25 @@ function drawImageScaled(img, ctx) {
                  centerShift_x, centerShift_y, img.width*ratio, img.height*ratio);
 }
 */
-/* The following are notes for 3D manipulation.  Place the trihedron at the center of a "sphere" touching drawing at outermost points.  i.e. this 3d drawing would fit in a box LxWxH, this box would fit a sphere with radius of r place trihedron x,y,z at 0,0,0 and redraw the obj.  Use mouse down to grab and drag obj, redraw obj */
+/* The following are notes for 3D manipulation.  Place the trihedron at the
+center of a "sphere" touching drawing at outermost points.  i.e. this 3d drawing
+would fit in a box LxWxH, this box would fit a sphere with radius of r place
+trihedron x,y,z at 0,0,0 and redraw the obj.  Use mouse down to grab and drag obj,
+redraw obj */
 /*funtion trihedron(){
     const frontBotLeft = x1, y1, z1; //Typically 0,0,0
     const backTopRight = x2, y2, z2; //Typically positive numbers
     zScale = 45deg +-15deg // Probably not needed;   set it at 45deg.
-    set a horizon line at 2/5 the height of the canvas.  Paint the top half a gradiant of white to dark blue, pain the bottom half a texture of dark gray.
+    set a horizon line at 2/5 the height of the canvas.  Paint the top half a
+    gradiant of white to dark blue, pain the bottom half a texture of dark gray.
     r = (distance frontBotLeft, backTopRight)/2;
 }
 
 function 3D(){
 	let inside = hp * hpCount;
 	console.info("HP length: ", inside);
-	//separation of left and right sides of case equals the total HP from inside left to inside right.
+	//separation of left and right sides of case equals the total HP from inside
+  left to inside right.
 	var overAllWidth = inside + (sideThickness * 2);
 }
 */
