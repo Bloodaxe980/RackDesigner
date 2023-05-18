@@ -157,6 +157,12 @@
 						<div class="format mt-normal-garden" style="font-size: 6px;"><input type="checkbox" name="scale" id="scale"  /><label for="scale"></label>
 						</div>&nbsp; Fit Window
 					</fieldset>
+          <fieldset id="material">
+						<legend>Material List</legend>
+						Close &nbsp;
+						<div class="format mt-normal-garden" style="font-size: 6px;"><input type="checkbox" name="matList" id="matList" onclick="showHide('materials')"  /><label for="matList"></label>
+						</div>&nbsp; Open
+					</fieldset>
         <p><a class="btn" href="https://modulargrid.net" target="_blank">Modular Grid</a></p>
         <p><a class="btn" href="https://vcvrack.com" target="_blank">VCV Rack</a></p>
 				</div>
@@ -168,6 +174,39 @@
             <div id="summary-container">
                 <div class="summary-div" id="summary-div"></div>
                 <div class="summary-div" id="summary-div-2"></div>
+            </div>
+            <div id="materials" class="hide">
+              <table id="materialList">
+                  <thead>
+                      <tr><th>Item</th><th>Unit</th><th>Price</th><th>Quantity</th><th>Item Total</th><th>Store</th></tr>
+                  </thead>
+                  <tbody>
+                      <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" class="right" /></td><td><input type="text" class="right" /></td><td><input type="text" class="right" disabled /></td><td><input type="text" /></td></tr>
+                  </tbody>
+                  <tfoot>
+                      <tr>
+                        <td>
+                        </td>
+                        <td class="right">
+                          Tax Rate:
+                        </td>
+                        <td>
+                          <input type="text" class="right" />
+                        </td>
+                        <td class="right">
+                          Taxes:
+                        </td>
+                        <td class="right">
+
+                        </td>
+                      </tr>
+                      <tr><td colspan="3"></td><td class="right">Total: </td><td class="right"></td></tr>
+                  </tfoot>
+              </table>
+            </div>
+            <div id="buttons">
+              <button onclick="newRow()">New row</button>
+              <button id="delRowBtn" onclick="delRow()">Delete row</button>
             </div>
         </div>
 		<!--MoreToggles.css is licensed under the MIT license. (https://opensource.org/licenses/MIT)-->

@@ -995,6 +995,27 @@ function getRandomColor() {
 	c2.value = rndColor2;
 }
 
+function newRow() {
+  var table = document.getElementById("materialList");
+  var tbodyRowCount = table.tBodies[0].rows.length;
+  var nRow = tbodyRowCount + 1;
+  var row = table.tbody.insertRow(nRow);
+  var cell1 = row.insertCell(0);
+  var cell2 = row.insertCell(1);
+  var cell3 = row.insertCell(2);
+  var cell4 = row.insertCell(3);
+  var cell5 = row.insertCell(4);
+}
+
+function delRow() {
+  var table = document.getElementById("materialList");
+  var tbodyRowCount = table.tBodies[0].rows.length;
+    if (tbodyRowCount = 1) {showHide("delRowBtn");}
+    else {
+      var xRow = tbodyRowCount - 1;
+      document.getElementById("materialList").deleteRow(xRow);
+    };
+}
 
 /*
 
