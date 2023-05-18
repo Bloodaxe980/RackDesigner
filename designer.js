@@ -997,18 +997,15 @@ function getRandomColor() {
 
 /* The following are functions to add and delet rows in the material list table. */
 
-function newRow() {
-  var table = document.getElementById('materialList');
-  var tbodyRowCount = table.tBodies[0].rows.length;
-  var tbodyRef = table.getElementsByTagName('tbody')[0];
-  var x = table.insertRow(tbodyRowCount+1);
-  var e = table.rows.length;
-  var l = table.rows[e].cells.length;
-  for (var c=0, m=l; c < m; c++) {
-               table.rows[tbodyRowCount].insertCell(c);
-               table.rows[tbodyRowCount].cells[c].innerHTML = "<input type='text' />";
-           }
-  x.innerHTML = "<input type='text' />";
+function addRow(tableID) {
+  // Get a reference to the table
+  let tableRef = document.getElementById(tableID);
+
+  let specific_tbody = document.getElementById("items");
+  let row = specific_tbody.insertRow(-1);  // append the row to tbody
+
+  // Insert cells in the row
+
   var cell1 = row.insertCell(0).innerHTML = "<input type='text' />";
   var cell2 = row.insertCell(1).innerHTML = "<input type='text' />";
   var cell3 = row.insertCell(2).innerHTML = "<input type='text' class='right' />";
@@ -1020,13 +1017,19 @@ function newRow() {
 }
 
 function delRow() {
-  var table = document.getElementById("materialList");
-  var tbodyRowCount = table.tBodies[0].rows.length;
+  /*var table = document.getElementById("materialList");
+  let specific_tbody = document.getElementById("items");
+  var tbodyRowCount = specific_tbody.rows.length;
     if (tbodyRowCount = 1) {showHide("delRowBtn");}
     else {
       var xRow = tbodyRowCount - 1;
-      document.getElementById("materialList").deleteRow(xRow);
-    };
+      specific_tbody.deleteRow(xRow);
+    };*/
+
+    let table = document.querySelector("table");
+
+// Delete last row
+//table.deleteRow(-1);
 }
 
 /* The following are functions to OPEN and SAVE the materail list to a CSV file. */

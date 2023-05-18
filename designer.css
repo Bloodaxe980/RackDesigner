@@ -119,8 +119,20 @@ input.right {
 	text-align: right;
 }
 
+table {
+	border-collapse: collapse;
+}
+
+td th {
+	border: 1px solid #dddddd;
+}
+
 td.right {
 	text-align: right;
+}
+
+trinth-child(even) {
+	background-color: #dddddd;
 }
 
 .input-span {

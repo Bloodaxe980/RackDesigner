@@ -181,8 +181,8 @@
                   <thead>
                       <tr><th>Item</th><th>Unit</th><th>Price</th><th>Quantity</th><th>Item Total</th><th>Store</th></tr>
                   </thead>
-                  <tbody>
-                      <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" class="right" /></td><td><input type="text" class="right" /></td><td><input type="text" class="right" disabled /></td><td><input type="text" /></td></tr>
+                  <tbody id="items">
+                      <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" class="right" /></td><td><input type="text" class="right" /></td><td><input id="itemTotal" type="text" class="right" disabled /></td><td><input type="text" /></td></tr>
                   </tbody>
                   <tfoot>
                       <tr>
@@ -192,24 +192,24 @@
                           Tax Rate:
                         </td>
                         <td>
-                          <input type="text" class="right" />
+                          <input id="taxRate" type="text" class="right" />
                         </td>
                         <td class="right">
                           Taxes:
                         </td>
-                        <td class="right">
+                        <td id="taxes" class="right">
 
                         </td>
                       </tr>
-                      <tr><td colspan="3"></td><td class="right">Total: </td><td class="right"></td></tr>
+                      <tr><td colspan="3"></td><td class="right">Total: </td><td id="grandTotal" class="right"></td></tr>
                   </tfoot>
               </table>
             </div>
               <div id="buttons">
                 <button class="mat" onclick="openFile">Open</button>
                 <button class="mat" id="saveFile">Save</button><br />
-                <button class="mat" onclick="newRow()">New row</button>
-                <button class="mat" id="delRowBtn" onclick="delRow()">Delete row</button>
+                <button class="mat" onclick="addRow(materialList)">Add Row</button>
+                <button class="mat" id="delRowBtn" onclick="delRow()">Delete Row</button>
               </div>
             </div>
         </div>
