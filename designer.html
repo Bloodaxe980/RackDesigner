@@ -175,7 +175,8 @@
                 <div class="summary-div" id="summary-div"></div>
                 <div class="summary-div" id="summary-div-2"></div>
             </div>
-            <div id="materials" class="hide">
+            <div id="materials" class="hide container">
+              <div id="matTable">
               <table id="materialList">
                   <thead>
                       <tr><th>Item</th><th>Unit</th><th>Price</th><th>Quantity</th><th>Item Total</th><th>Store</th></tr>
@@ -204,9 +205,12 @@
                   </tfoot>
               </table>
             </div>
-            <div id="buttons">
-              <button onclick="newRow()">New row</button>
-              <button id="delRowBtn" onclick="delRow()">Delete row</button>
+              <div id="buttons">
+                <button class="mat" onclick="openFile">Open</button>
+                <button class="mat" id="saveFile">Save</button><br />
+                <button class="mat" onclick="newRow()">New row</button>
+                <button class="mat" id="delRowBtn" onclick="delRow()">Delete row</button>
+              </div>
             </div>
         </div>
 		<!--MoreToggles.css is licensed under the MIT license. (https://opensource.org/licenses/MIT)-->

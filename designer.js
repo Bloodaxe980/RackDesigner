@@ -995,16 +995,28 @@ function getRandomColor() {
 	c2.value = rndColor2;
 }
 
+/* The following are functions to add and delet rows in the material list table. */
+
 function newRow() {
-  var table = document.getElementById("materialList");
+  var table = document.getElementById('materialList');
   var tbodyRowCount = table.tBodies[0].rows.length;
-  var nRow = tbodyRowCount + 1;
-  var row = table.tbody.insertRow(nRow);
-  var cell1 = row.insertCell(0);
-  var cell2 = row.insertCell(1);
-  var cell3 = row.insertCell(2);
-  var cell4 = row.insertCell(3);
-  var cell5 = row.insertCell(4);
+  var tbodyRef = table.getElementsByTagName('tbody')[0];
+  var x = table.insertRow(tbodyRowCount+1);
+  var e = table.rows.length;
+  var l = table.rows[e].cells.length;
+  for (var c=0, m=l; c < m; c++) {
+               table.rows[tbodyRowCount].insertCell(c);
+               table.rows[tbodyRowCount].cells[c].innerHTML = "<input type='text' />";
+           }
+  x.innerHTML = "<input type='text' />";
+  var cell1 = row.insertCell(0).innerHTML = "<input type='text' />";
+  var cell2 = row.insertCell(1).innerHTML = "<input type='text' />";
+  var cell3 = row.insertCell(2).innerHTML = "<input type='text' class='right' />";
+  var cell4 = row.insertCell(3).innerHTML = "<input type='text' class='right' />";
+  var cell5 = row.insertCell(4).innerHTML = "<input type='text' class='right' disabled />";
+  var cell6 = row.insertCell(5).innerHTML = "<input type='text' />";
+
+  if (tbodyRowCount = 2) {showHide("delRowBtn")};
 }
 
 function delRow() {
@@ -1017,8 +1029,67 @@ function delRow() {
     };
 }
 
-/*
+/* The following are functions to OPEN and SAVE the materail list to a CSV file. */
 
+function openFile () {
+
+}
+
+function download_csv(csv, filename) {
+    var csvFile;
+    var downloadLink;
+
+    // CSV FILE
+    csvFile = new Blob([csv], {type: "text/csv"});
+
+    // Download link
+    downloadLink = document.createElement("a");
+
+    // File name
+    downloadLink.download = filename;
+
+    // We have to create a link to the file
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+
+    // Make sure that the link is not displayed
+    downloadLink.style.display = "none";
+
+    // Add the link to your DOM
+    document.body.appendChild(downloadLink);
+
+    // Lanzamos
+    downloadLink.click();
+}
+
+function export_table_to_csv(html, filename) {
+	var csv = [];
+	var rows = document.querySelectorAll("table tr");
+
+    for (var i = 0; i < rows.length; i++) {
+		var row = [], cols = rows[i].querySelectorAll("td, th");
+
+        for (var j = 0; j < cols.length; j++)
+            row.push(cols[j].innerText);
+
+		csv.push(row.join(","));
+	}
+
+    // Download CSV
+    download_csv(csv.join("\n"), filename);
+}
+
+document.getElementById("saveFile").addEventListener("click", function () {
+    var html = document.querySelector("table").outerHTML;
+	export_table_to_csv(html, "MaterailList.csv");
+});
+
+/*
+function saveFile () {
+  var html = document.querySelector("table").outerHTML;
+  	export_table_to_csv(html, "MaterailList.csv");
+}
+*/
+/*
 function scale (var s){
     var img = drawSide();
     (s = "fit") ? drawImageScaled;
