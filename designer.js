@@ -998,38 +998,29 @@ function getRandomColor() {
 /* The following are functions to add and delet rows in the material list table. */
 
 function addRow(tableID) {
-  // Get a reference to the table
+  // Get the reference of the table
   let tableRef = document.getElementById(tableID);
-
   let specific_tbody = document.getElementById("items");
   let row = specific_tbody.insertRow(-1);  // append the row to tbody
 
   // Insert cells in the row
-
   var cell1 = row.insertCell(0).innerHTML = "<input type='text' />";
   var cell2 = row.insertCell(1).innerHTML = "<input type='text' />";
   var cell3 = row.insertCell(2).innerHTML = "<input type='text' class='right' />";
   var cell4 = row.insertCell(3).innerHTML = "<input type='text' class='right' />";
   var cell5 = row.insertCell(4).innerHTML = "<input type='text' class='right' disabled />";
   var cell6 = row.insertCell(5).innerHTML = "<input type='text' />";
-
-  if (tbodyRowCount = 2) {showHide("delRowBtn")};
 }
 
 function delRow() {
-  /*var table = document.getElementById("materialList");
+  //var theTable = document.getElementById("materialList");
   let specific_tbody = document.getElementById("items");
   var tbodyRowCount = specific_tbody.rows.length;
-    if (tbodyRowCount = 1) {showHide("delRowBtn");}
-    else {
-      var xRow = tbodyRowCount - 1;
-      specific_tbody.deleteRow(xRow);
-    };*/
-
-    let table = document.querySelector("table");
-
-// Delete last row
-//table.deleteRow(-1);
+  if (tbodyRowCount == 1) {return}
+  else {
+  let table = document.querySelector("table");
+  // Delete  row
+  table.deleteRow(1);}
 }
 
 /* The following are functions to OPEN and SAVE the materail list to a CSV file. */
