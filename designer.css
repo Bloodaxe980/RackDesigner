@@ -160,7 +160,6 @@ trinth-child(even) {
 #buttons {
 	display: table-cell;
   vertical-align: bottom;
-	background-color: pink;
 }
 
 #row1 {

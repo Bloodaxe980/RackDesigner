@@ -1006,21 +1006,22 @@ function addRow(tableID) {
   // Insert cells in the row
   var cell1 = row.insertCell(0).innerHTML = "<input type='text' />";
   var cell2 = row.insertCell(1).innerHTML = "<input type='text' />";
-  var cell3 = row.insertCell(2).innerHTML = "<input type='text' class='right' />";
-  var cell4 = row.insertCell(3).innerHTML = "<input type='text' class='right' />";
-  var cell5 = row.insertCell(4).innerHTML = "<input type='text' class='right' disabled />";
-  var cell6 = row.insertCell(5).innerHTML = "<input type='text' />";
+  var cell3 = row.insertCell(2).innerHTML = "<input type='text' size='10' class='right' />";
+  var cell4 = row.insertCell(3).innerHTML = "<input type='text' size='10' class='right' />";
+  var cell5 = row.insertCell(4).innerHTML = "<input type='text' size='10' class='right' disabled />";
+  var cell6 = row.insertCell(5).innerHTML = "<input type='text' size='30' />";
 }
 
-function delRow() {
+function delRow(tableID) {
   //var theTable = document.getElementById("materialList");
   let specific_tbody = document.getElementById("items");
   var tbodyRowCount = specific_tbody.rows.length;
   if (tbodyRowCount == 1) {return}
   else {
-  let table = document.querySelector("table");
-  // Delete  row
-  table.deleteRow(1);}
+    let tableRef = document.getElementById(tableID);
+    let specific_tbody = document.getElementById("items");
+    let row = specific_tbody.deleteRow(-1);  // delet the last row in tbody
+    }
 }
 
 /* The following are functions to OPEN and SAVE the materail list to a CSV file. */

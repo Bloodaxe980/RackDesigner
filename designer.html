@@ -182,7 +182,9 @@
                       <tr><th>Item</th><th>Unit</th><th>Price</th><th>Quantity</th><th>Item Total</th><th>Store</th></tr>
                   </thead>
                   <tbody id="items">
-                      <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" class="right" /></td><td><input type="text" class="right" /></td><td><input id="itemTotal" type="text" class="right" disabled /></td><td><input type="text" /></td></tr>
+                      <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" size='10' class="right" /></td>
+                        <td><input type="text" size='10' class="right" /></td><td><input id="itemTotal" type="text" size='10' class="right" disabled /></td>
+                        <td><input type="text" size='30' /></td></tr>
                   </tbody>
                   <tfoot>
                       <tr>
@@ -192,12 +194,12 @@
                           Tax Rate:
                         </td>
                         <td>
-                          <input id="taxRate" type="text" class="right" />
+                          <input id="taxRate" type="text" size='10' class="right" />
                         </td>
                         <td class="right">
                           Taxes:
                         </td>
-                        <td id="taxes" class="right">
+                        <td id="taxes" size='10' class="right">
 
                         </td>
                       </tr>
@@ -209,7 +211,7 @@
                 <button class="mat" onclick="openFile">Open</button>
                 <button class="mat" id="saveFile">Save</button><br />
                 <button class="mat" onclick="addRow(materialList)">Add Row</button>
-                <button class="mat" id="delRowBtn" onclick="delRow()">Delete Row</button>
+                <button class="mat" id="delRowBtn" onclick="delRow(materialList)">Delete Row</button>
               </div>
             </div>
         </div>
