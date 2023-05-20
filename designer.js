@@ -1078,12 +1078,12 @@ document.getElementById("saveFile").addEventListener("click", function () {
 	export_table_to_csv(html, "MaterailList.csv");
 });
 
-/*
+
 function saveFile () {
   var html = document.querySelector("table").outerHTML;
   	export_table_to_csv(html, "MaterailList.csv");
 }
-*/
+
 /*
 function scale (var s){
     var img = drawSide();

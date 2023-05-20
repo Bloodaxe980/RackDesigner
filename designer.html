@@ -156,7 +156,7 @@
 						Full Size &nbsp;
 						<div class="format mt-normal-garden" style="font-size: 6px;"><input type="checkbox" name="scale" id="scale"  /><label for="scale"></label>
 						</div>&nbsp; Fit Window
-					</fieldset>
+					</fieldset><br />
           <fieldset id="material">
 						<legend>Material List</legend>
 						Close &nbsp;
@@ -188,6 +188,13 @@
                   </tbody>
                   <tfoot>
                       <tr>
+                        <td colspan="4" class="right">
+                          Sub Total:
+                        </td>
+                        <td>
+                        </td>
+                      </tr>
+                      <tr>
                         <td>
                         </td>
                         <td class="right">
@@ -209,7 +216,7 @@
             </div>
               <div id="buttons">
                 <button class="mat" onclick="openFile">Open</button>
-                <button class="mat" id="saveFile">Save</button><br />
+                <button class="mat" id="saveFile" onclick="saveFile()">Save</button><br />
                 <button class="mat" onclick="addRow(materialList)">Add Row</button>
                 <button class="mat" id="delRowBtn" onclick="delRow(materialList)">Delete Row</button>
               </div>
