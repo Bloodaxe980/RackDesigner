@@ -121,6 +121,20 @@ input.right {
 
 table {
 	border-collapse: collapse;
+	/*background-color: aqua;
+	color: navy;*/
+}
+
+table.fixed {
+	table-layout: fixed;
+
+}
+
+table.fixed td
+{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 td th {
@@ -129,12 +143,13 @@ td th {
 
 td.right {
 	text-align: right;
+	width: 50px;
 }
-
-trinth-child(even) {
+/*
+tr:nth-child(even) {
 	background-color: #dddddd;
 }
-
+*/
 .input-span {
     padding-right: 2em;
     white-space: nowrap;
@@ -212,7 +227,10 @@ trinth-child(even) {
 
 #materials {
 	padding-bottom: 2em;
+	margin-left: auto;
+	margin-right: auto;
 }
+
 .summary-div {
     flex: 50%;
     margin: .5em;

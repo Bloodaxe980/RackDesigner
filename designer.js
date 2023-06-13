@@ -4,8 +4,8 @@
 "use strict";
 
 var canvas, canvasDiv, calcRiseCb, ctx, e,frontPanelCb, h,
-    init, input, inputDepth, matThickness, measureCb, pxDepthInput,
-    roundToPlace, setStandard, showInches, standardHtCb, w, xStart;
+    init, input, inputDepth, matThickness, measureCb, price, pxDepthInput,
+    quantity, roundToPlace, setStandard, showInches, standardHtCb, w, xStart;
 
 var i = 0;
 var rowUnitsH = [3, 3, 1];
@@ -1006,9 +1006,9 @@ function addRow(tableID) {
   // Insert cells in the row
   var cell1 = row.insertCell(0).innerHTML = "<input type='text' />";
   var cell2 = row.insertCell(1).innerHTML = "<input type='text' />";
-  var cell3 = row.insertCell(2).innerHTML = "<input type='text' size='10' class='right' />";
-  var cell4 = row.insertCell(3).innerHTML = "<input type='text' size='10' class='right' />";
-  var cell5 = row.insertCell(4).innerHTML = "<input type='text' size='10' class='right' disabled />";
+  var cell3 = row.insertCell(2).innerHTML = "<input type='text' size='10' class='right' onkeyup='getPrice(this)' />";
+  var cell4 = row.insertCell(3).innerHTML = "<input type='text' size='10' class='right' onkeyup='getQuantity(this)' />";
+  var cell5 = row.insertCell(4).classList="itemTotal right";
   var cell6 = row.insertCell(5).innerHTML = "<input type='text' size='30' />";
 }
 
@@ -1073,15 +1073,59 @@ function export_table_to_csv(html, filename) {
     download_csv(csv.join("\n"), filename);
 }
 
-document.getElementById("saveFile").addEventListener("click", function () {
-    var html = document.querySelector("table").outerHTML;
-	export_table_to_csv(html, "MaterailList.csv");
+  document.getElementById("saveFile").addEventListener("click", function () {
+      var html = document.querySelector("table").outerHTML;
+      export_table_to_csv(html, "MaterailList.csv");
 });
 
 
 function saveFile () {
   var html = document.querySelector("table").outerHTML;
   	export_table_to_csv(html, "MaterailList.csv");
+}
+
+function rounding(x, y) {
+  let digits = math.pow(10, y);
+  x = x * digits;
+  math.round(x);
+  x = x / digits;
+  return x;
+}
+
+function grandTotal () {
+  var iTotal = document.getElementsByClassName("itemTotal");
+  var tRate = document.getElementById("taxRate").value;
+  var sTotal = document.getElementById("subTotal");
+  var tax = document.getElementById("taxes");
+  var gTotal = document.getElementById("grandTotal");
+  var cal = 0;
+  for (let i = 0; i < iTotal.length; i++) {
+    cal += parseInt(iTotal[i].innerText);
+  }
+  let mary = rounding(cal, 2);
+  sTotal.innerText = mary;
+  if (tRate > 0) {
+    let tx = cal * tRate;
+    tax.innerHTML = tx;
+    cal += tx;
+  }
+  gTotal.innerHTML = cal;
+}
+
+function getPrice (pr) {
+  var qtyValue = pr.parentElement.parentElement.children[3].children[0].value;
+  let thePrice = pr.value * qtyValue;
+  let paul = rounding(thePrice, 2);
+  pr.parentElement.parentElement.children[4].innerHTML = paul;
+  grandTotal();
+}
+
+function getQuantity (qt) {
+  var prValue = qt.parentElement.parentElement.children[2].children[0].value;
+  let theQuantity = qt.value * prValue;
+  let Peter = rounding(theQuantity, 2);
+  qt.parentElement.parentElement.children[4].innerHTML = peter;
+  grandTotal();
 }
 
 /*

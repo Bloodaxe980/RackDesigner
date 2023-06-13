@@ -177,13 +177,13 @@
             </div>
             <div id="materials" class="hide container">
               <div id="matTable">
-              <table id="materialList">
+              <table id="materialList" class="fixed">
                   <thead>
-                      <tr><th>Item</th><th>Unit</th><th>Price</th><th>Quantity</th><th>Item Total</th><th>Store</th></tr>
+                      <tr><th>Item</th><th>Unit</th><th>Price</th><th>Quantity</th><th width="15em">Item Total</th><th>Store</th></tr>
                   </thead>
                   <tbody id="items">
-                      <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" size='10' class="right" /></td>
-                        <td><input type="text" size='10' class="right" /></td><td><input id="itemTotal" type="text" size='10' class="right" disabled /></td>
+                      <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" size='10' class="right" onkeyup="getPrice(this)" /></td>
+                        <td><input type="text" size='10' class="right" onkeyup="getQuantity(this)" /></td><td class="itemTotal right">0.00</td>
                         <td><input type="text" size='30' /></td></tr>
                   </tbody>
                   <tfoot>
@@ -191,7 +191,7 @@
                         <td colspan="4" class="right">
                           Sub Total:
                         </td>
-                        <td>
+                        <td id="subTotal" class="right">0.00
                         </td>
                       </tr>
                       <tr>
@@ -201,16 +201,15 @@
                           Tax Rate:
                         </td>
                         <td>
-                          <input id="taxRate" type="text" size='10' class="right" />
+                          <input id="taxRate" type="text" size='10' class="right" onkeyup="grandTotal()" />
                         </td>
-                        <td class="right">
-                          Taxes:
+                        <td class="right">Taxes:
                         </td>
-                        <td id="taxes" size='10' class="right">
-
+                        <td id="taxes" class="right">
+                          0.00
                         </td>
                       </tr>
-                      <tr><td colspan="3"></td><td class="right">Total: </td><td id="grandTotal" class="right"></td></tr>
+                      <tr><td colspan="3"></td><td class="right">Total: </td><td id="grandTotal" class="right">0.00</td></tr>
                   </tfoot>
               </table>
             </div>
