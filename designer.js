@@ -1084,14 +1084,6 @@ function saveFile () {
   	export_table_to_csv(html, "MaterailList.csv");
 }
 
-function rounding(x, y) {
-  let digits = math.pow(10, y);
-  x = x * digits;
-  math.round(x);
-  x = x / digits;
-  return x;
-}
-
 function grandTotal () {
   var iTotal = document.getElementsByClassName("itemTotal");
   var tRate = document.getElementById("taxRate").value;
@@ -1100,31 +1092,34 @@ function grandTotal () {
   var gTotal = document.getElementById("grandTotal");
   var cal = 0;
   for (let i = 0; i < iTotal.length; i++) {
-    cal += parseInt(iTotal[i].innerText);
+    cal += parseFloat(iTotal[i].innerHTML);
   }
-  let mary = rounding(cal, 2);
-  sTotal.innerText = mary;
+  let newTotal = roundToPlace(cal, 2);
+  sTotal.innerText = newTotal.toFixed(2);
   if (tRate > 0) {
-    let tx = cal * tRate;
-    tax.innerHTML = tx;
+    let tx = 0;
+    //tx = cal * tRate;
+    tx = roundToPlace((cal * tRate), 2);
+    tax.innerHTML = tx.toFixed(2);
     cal += tx;
   }
-  gTotal.innerHTML = cal;
+  cal = roundToPlace(cal, 2);
+  gTotal.innerHTML = cal.toFixed(2);
 }
 
 function getPrice (pr) {
   var qtyValue = pr.parentElement.parentElement.children[3].children[0].value;
   let thePrice = pr.value * qtyValue;
-  let paul = rounding(thePrice, 2);
-  pr.parentElement.parentElement.children[4].innerHTML = paul;
+  let newPrice = roundToPlace(thePrice, 2);
+  pr.parentElement.parentElement.children[4].innerHTML = newPrice.toFixed(2);
   grandTotal();
 }
 
 function getQuantity (qt) {
   var prValue = qt.parentElement.parentElement.children[2].children[0].value;
   let theQuantity = qt.value * prValue;
-  let Peter = rounding(theQuantity, 2);
-  qt.parentElement.parentElement.children[4].innerHTML = peter;
+  let newQuantity = roundToPlace(theQuantity, 2);
+  qt.parentElement.parentElement.children[4].innerHTML = theQuantity.toFixed(2);
   grandTotal();
 }
 
