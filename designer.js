@@ -336,7 +336,7 @@ function writeSummary(width, height, back, outlinePoints, railScrewCoords) {
         actualDistance(actualPanelHeight, true),
     ];
     var panelDepthInfo = ["Panel depth used: ", actualDistance(actualPanelDepth, true)];
-    var backPanelInfo = ["Max depth of back panel: ", back];
+    var backPanelInfo = ["Max depth of back panel: ", roundToPlace(back, 2)];
     var railDepthInfo = ["Rails depth inset: ", actualDistance(actualRailDepth, true)];
     var railSpacingInfo = [
         "Rail screw spacing*: ",
@@ -1021,13 +1021,40 @@ function delRow(tableID) {
     let tableRef = document.getElementById(tableID);
     let specific_tbody = document.getElementById("items");
     let row = specific_tbody.deleteRow(-1);  // delet the last row in tbody
-    }
+    grandTotal();
+  }
 }
 
 /* The following are functions to OPEN and SAVE the materail list to a CSV file. */
 
 function openFile () {
+  // (A) FILE READER + HTML ELEMENTS
+let reader = new FileReader(),
+    picker = document.getElementById("demoPick"),
+    table = document.getElementById("dummyTable");
 
+// (B) READ CSV ON FILE PICK
+picker.onchange = () => reader.readAsText(picker.files[0]);
+
+// (C) READ CSV & GENERATE TABLE
+reader.onloadend = () => {
+  table.innerHTML = "";
+  let first = true;
+for (let row of CSV.parse(csv)) {
+  let tr = table.insertRow();
+  for (let col of row) {
+    if (first) {
+      let th = document.createElement("th");
+      th.innerHTML = col;
+      tr.appendChild(th);
+    } else {
+      let td = tr.insertCell();
+      td.innerHTML = col;
+    }
+  }
+  first = false;
+ }
+};
 }
 
 function download_csv(csv, filename) {
@@ -1075,7 +1102,7 @@ function export_table_to_csv(html, filename) {
 
   document.getElementById("saveFile").addEventListener("click", function () {
       var html = document.querySelector("table").outerHTML;
-      export_table_to_csv(html, "MaterailList.csv");
+      export_table_to_csv(html, "MaterialList.csv");
 });
 
 
