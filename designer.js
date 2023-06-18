@@ -1028,34 +1028,38 @@ function delRow(tableID) {
 /* The following are functions to OPEN and SAVE the materail list to a CSV file. */
 
 function openFile () {
-  // (A) FILE READER + HTML ELEMENTS
-let reader = new FileReader(),
-    picker = document.getElementById("demoPick"),
-    table = document.getElementById("dummyTable");
+// (A) FILE READER + HTML ELEMENTS
+    let reader = new FileReader();
+    let picker = document.getElementById("demoPick");
+    let tbl = document.getElementById("dummyTable");
 
-// (B) READ CSV ON FILE PICK
+// (B) READ CSV ON FILE PICK  */
 picker.onchange = () => reader.readAsText(picker.files[0]);
 
 // (C) READ CSV & GENERATE TABLE
 reader.onloadend = () => {
-  table.innerHTML = "";
-  let first = true;
-for (let row of CSV.parse(csv)) {
-  let tr = table.insertRow();
-  for (let col of row) {
-    if (first) {
-      let th = document.createElement("th");
-      th.innerHTML = col;
-      tr.appendChild(th);
-    } else {
-      let td = tr.insertCell();
-      td.innerHTML = col;
+  let csv = picker.result;
+
+// CLEAR THE HTML TABLE
+  tbl.innerHTML = "";
+
+  // SPLIT INTO rows
+  let rows = csv.split("\r\n");
+
+  // LOOP THROUGH ROWS AND SPLIT COLUMNS
+  for (let row of rows) {
+    let cols = row.match(/(?:\"([^\"]*(?:\"\"[^\"]*)*)\")|([^\",]+)/g);
+    if (cols != null) {
+      let tr = table.insertRow();
+      for (let col of cols) {
+        let td = tr.insertCell();
+        td.innerHTML = col.replace(/(^"|"$)/g, "");
+        }
+      }
     }
-  }
-  first = false;
- }
+  };
 };
-}
+
 
 function download_csv(csv, filename) {
     var csvFile;
