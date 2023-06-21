@@ -116,8 +116,6 @@ function startX() {
 }
 
 function trig90(leg, angleOpp) {
-	//var leg;
-	//var angleOpp;
 	var missing = leg * Math.tan(angleOpp);
 	return missing;
 }
@@ -571,14 +569,14 @@ function writeCoords(x, y, showBelow, offsetX, offsetY) {
 }
 /*
 function updateAngles() {
-	const focusEL = document.activeElement;
+	const focusEl = document.activeElement;
 	const aa = getActualRowAngle(i);
 	const deg = document.getElementsByClassName("angle");
 	for (let i = 0; i < collection.length; i++) {
-		collection[i].type = "angle";
-	deg.innerHTML = " deg. Angle: " + aa;
+	   collection[i].type = "angle";
+	   deg.innerHTML = " deg. Angle: " + aa;
 	focusEl.focus();
-	return;
+	//return;
 }
 */
 /**
@@ -622,24 +620,25 @@ function createRowInput(i, uValue, aValue) {
     inp.maxlength = 3;
     inp.title = 'Press ENTER to update.'
     inp.id = `${inputIdPrefix}${i}`;
+
     const onChange = (event) => {
-		if (event.key !="Enter") {return}
-		else {
-        setTimeout(() => {
-			const unitIndex = parseInt(event.target.id.split(unitsIdPrefix)[1], 10);
-            rowUnitsH[unitIndex] = parseFloat(event.target.value, 10);
-			unitHeight = rowUnitsH[unitIndex];
-			console.info(
-				"Unit Index: ", unitIndex,
-				" rowUnitsH: ", rowUnitsH,
-				" unitHeight: ", unitHeight,
-				" Actual panel height: ",
-				actualPanelHeight
-			);
+    // only execute if the ENTER key is pressed
+		/*if (event.key !="Enter") {return}
+		else {*/
+      setTimeout(() => {
+  			const unitIndex = parseInt(event.target.id.split(unitsIdPrefix)[1], 10);
+        rowUnitsH[unitIndex] = parseFloat(event.target.value, 10);
+  			unitHeight = rowUnitsH[unitIndex];
+  			console.info(
+  				"Unit Index: ", unitIndex,
+  				" rowUnitsH: ", rowUnitsH,
+  				" unitHeight: ", unitHeight,
+  				" Actual panel height: ",
+  				actualPanelHeight
+  			);
 
         const inputIndex = parseInt(event.target.id.split(inputIdPrefix)[1], 10);
         rowAngles[inputIndex] = parseFloat(event.target.value, 10);
-
         console.info(
             "Input change: ",
             event.target.value,
@@ -647,14 +646,16 @@ function createRowInput(i, uValue, aValue) {
             inputIndex,
             rowAngles
             );
+
           drawSide();
-        }, 0); } //
+        }, 0);
     };
-	  uni.addEventListener("input", onChange);
-    uni.addEventListener("change", onChange);
+    uni.addEventListener("blur", onChange);
+//	  uni.addEventListener("input", onChange);
+//    uni.addEventListener("change", onChange);
     uni.addEventListener("keypress", onChange);
-    uni.addEventListener("losefocus", onChange);
-    //inp.addEventListener("input", onChange);
+
+//    inp.addEventListener("input", onChange);
     inp.addEventListener("blur", onChange);
     inp.addEventListener("keypress", onChange);
 
@@ -668,7 +669,7 @@ function createRowInput(i, uValue, aValue) {
     rowInputs.appendChild(spn);
     rowInputs.appendChild(para);
 
-    return inp;
+//    return inp;
 }
 
 /**
@@ -1027,11 +1028,70 @@ function delRow(tableID) {
 
 /* The following are functions to OPEN and SAVE the materail list to a CSV file. */
 
+function readCSVFile () {
+    var theFile = picker.value;
+     var files = document.querySelector('#file').files;
+
+     if(files.length > 0 ){
+
+          // Selected file
+          var file = files[0];
+
+          // FileReader Object
+          var reader = new FileReader();
+
+          // Read file as string
+          reader.readAsText(file);
+
+          // Load event
+          reader.onload = function(event) {
+
+               // Read file data
+               var csvdata = event.target.result;
+
+               // Split by line break to gets rows Array
+               var rowData = csvdata.split('\n');
+
+               // <table > <tbody>
+               var tbodyEl = document.getElementById('tblcsvdata').getElementsByTagName('tbody')[0];
+               tbodyEl.innerHTML = "";
+
+               // Loop on the row Array (change row=0 if you also want to read 1st row)
+               for (var row = 1; row < rowData.length; row++) {
+
+                     // Insert a row at the end of table
+                     var newRow = tbodyEl.insertRow();
+
+                     // Split by comma (,) to get column Array
+                     rowColData = rowData[row].split(',');
+
+                     // Loop on the row column Array
+                     for (var col = 0; col < rowColData.length; col++) {
+
+                          // Insert a cell at the end of the row
+                          var newCell = newRow.insertCell();
+                          newCell.innerHTML = rowColData[col];
+
+                     }
+
+               }
+          };
+
+     }else{
+          alert("Please select a file.");
+     }
+
+}
+
+
 function openFile () {
 // (A) FILE READER + HTML ELEMENTS
     let reader = new FileReader();
     let picker = document.getElementById("demoPick");
     let tbl = document.getElementById("dummyTable");
+
+// CREATE FILEPICKER
+
 
 // (B) READ CSV ON FILE PICK  */
 picker.onchange = () => reader.readAsText(picker.files[0]);
@@ -1039,7 +1099,7 @@ picker.onchange = () => reader.readAsText(picker.files[0]);
 // (C) READ CSV & GENERATE TABLE
 reader.onloadend = () => {
   let csv = picker.result;
-
+  console.info("picker.result: ", csv);
 // CLEAR THE HTML TABLE
   tbl.innerHTML = "";
 
@@ -1102,13 +1162,7 @@ function export_table_to_csv(html, filename) {
 
     // Download CSV
     download_csv(csv.join("\n"), filename);
-}
-
-  document.getElementById("saveFile").addEventListener("click", function () {
-      var html = document.querySelector("table").outerHTML;
-      export_table_to_csv(html, "MaterialList.csv");
-});
-
+};
 
 function saveFile () {
   var html = document.querySelector("table").outerHTML;

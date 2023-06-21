@@ -132,14 +132,11 @@
 					<p />
 					<span class="input-span">
 						Row count:&nbsp;
-						<select
-							name="rowCount"
-							id="rowCount"
-						></select>
+						<select name="rowCount" id="rowCount"></select>
 					</span>
 					<p />
           <form onSubmit="return init()">
-					<span id="row-inputs"> </span>
+            <span id="row-inputs"> </span>
           </form>
 					<p />
 					<span class="input-span">
@@ -222,7 +219,8 @@
               </table>
             </div>
               <div id="buttons">
-                <button class="mat" onclick="openFile()">Open</button><input class="mat" type="file" accept=".csv" id="demoPick" />
+                <button class="mat" onclick="readCSVFile()">Open</button>
+                <!--input class="mat" type="file" accept=".csv" id="demoPick" /-->
                 <button class="mat" id="saveFile" onclick="saveFile()">Save</button><br />
                 <button class="mat" onclick="addRow(materialList)">Add Row</button>
                 <button class="mat" id="delRowBtn" onclick="delRow(materialList)">Delete Row</button>
