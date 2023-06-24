@@ -567,18 +567,19 @@ function writeCoords(x, y, showBelow, offsetX, offsetY) {
         plot.y - 10 * yFactor
     );
 }
-/*
+
 function updateAngles() {
-	const focusEl = document.activeElement;
-	const aa = getActualRowAngle(i);
-	const deg = document.getElementsByClassName("angle");
-	for (let i = 0; i < collection.length; i++) {
-	   collection[i].type = "angle";
-	   deg.innerHTML = " deg. Angle: " + aa;
-	focusEl.focus();
-	//return;
+	//const focusEl = document.activeElement;
+	const angles = document.getElementsByClassName("angle");
+	for (let i = 0; i < angles.length; i++) {
+      const aa = getActualRowAngle(i);
+	    angles[i].innerHTML = " deg. Angle: " + aa;
+      console.info("i: ", i, " angle: ", aa);
+   }
+	//focusEl.focus();
+	return;
 }
-*/
+
 /**
  * Creates the row angle inputs based on the number of rows.
  *
@@ -648,6 +649,7 @@ function createRowInput(i, uValue, aValue) {
             );
 
           drawSide();
+          updateAngles();
         }, 0);
     };
     uni.addEventListener("blur", onChange);
