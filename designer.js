@@ -243,7 +243,13 @@ function drawSide() {
 
     rowAngles.forEach((angle, i) => {
         panels[i].coords.push(x, y);
-		actualPanelHeight = rowUnitsH[i] * 44.45;
+        if (rowUnitsH[i] == 1) {
+          actualPanelHeight = oneUnitStandard;
+        }
+        else {
+          actualPanelHeight = rowUnitsH[i] * 44.45;
+        };
+        console.info("APH ", actualPanelHeight, " oneUSTD: ", oneUnitStandard);
         add(
             x + Math.cos(rad(getActualRowAngle(i))) * actualPanelHeight,
             y + Math.sin(rad(getActualRowAngle(i))) * actualPanelHeight,
@@ -779,12 +785,10 @@ function init() {
 	prowTrue ? xStart = 20 : xStart = 0;
 
 	standardHtCb = document.getElementById("standardHt");
-    standardHtCb.checked = setStandard;
     const onStandardHtChange = (event) => {
         setTimeout(() => {
-            setStandard	 = event.target.checked;
-            setStandard ? oneUnitStandard = unitPlp : oneUnitStandard = unitInt;
-            drawSide();
+          standardHtCb.checked ? oneUnitStandard = unitPlp : oneUnitStandard = unitInt;
+          drawSide();
         }, 0);
     };
     standardHtCb.addEventListener("change", onStandardHtChange);
