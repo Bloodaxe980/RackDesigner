@@ -3,9 +3,10 @@
 
 "use strict";
 
-var canvas, canvasDiv, calcRiseCb, ctx, e,frontPanelCb, h,
-    init, input, inputDepth, matThickness, measureCb, price, pxDepthInput,
-    quantity, roundToPlace, setStandard, showInches, standardHtCb, w, xStart;
+var canvas, canvasDiv, calcRiseCb, ctx, e,frontPanelCb, h, init, input,
+    inputDepth, matThickness, measureCb, price, pxDepthInput, quantity,
+    radioGpFormat, roundToPlace, setStandard, showInches, standardHtCb,
+    w, xStart;
 
 var i = 0;
 var rowUnitsH = [3, 3, 1];
@@ -49,14 +50,6 @@ var unitHeight = 3;
 var unitPlp = 43.2;  //mm
 var useStaticRise = false;
 
-/*function addGobalEventListener(type, selector, callback) {
-	var e = '';
-	document.addEventListener(type, e => {
-		if (e.target.matches(selector)) callback(e)
-	})
-};
-*/
-
 document.addEventListener("DOMContentLoaded", function () {
     init();
 });
@@ -84,40 +77,39 @@ function themeCb() {
 	bod.classList.toggle("white");
 }
 
-/*
-function formatCb() {
-
-// depricated:  there are now four different formats requireing a
-different selection method. i.e. caseOf
-
-	var checked = document.getElementById("format");
-	checked ? hp=25.4 : hp = 5.08; //mm
-}
-*/
-
-
 // Set height for front panel
 
 var frontHeight = useStaticRise
     ? actualPanelDepth
     : Math.abs(actualPanelDepth * Math.sin(Math.PI / 2 - rad(firstAngle)));
 
-// Horizontal starting position on the canvas
-function startX() {
-    return 50;
-	/*var sx;
-	if (prowTrue) {
-		var firstAngle = rowAngles[0];
-		var secondAngle = 90 - firstAngle;
-		sx = trig90(frontHeight, firstAngle)
-	}
-	else sx = 50;
-	return sx;*/
+// Get selected format
+/*function tuneRadio() {
+    var radios = document.getElementsByName("format");
+    var selected = Array.from(radios).find(radio => radio.checked);
+    var station = selected.value;
+    console.info("station: ", station);
 }
+radios.addEventListener("change", tuneRadio);*/
 
+
+
+// Given one leg and the angle opposite the missing segment, find the missing leg of a right triangle
 function trig90(leg, angleOpp) {
-	var missing = leg * Math.tan(angleOpp);
-	return missing;
+    	var need = leg * Math.tan(angleOpp * Math.PI / 180);
+      var missing = roundToPlace(Math.abs(need), 2);
+      return missing;
+    }
+
+// Horizontal starting position on the canvas
+function prow() {
+	var sx;
+	if (prowTrue) {
+		var angleMissing = rowAngles[0];
+		sx = trig90(frontHeight, angleMissing);
+	}
+	else sx = 0;
+	return sx;
 }
 
 function startY() {
@@ -178,7 +170,7 @@ function drawSide() {
     ctx.strokeStyle = "#999999";
     ctx.setLineDash([]); //([1, 5]);
 
-	var backPanelLocation = 0;
+	  var backPanelLocation = 0;
     var maxX = 0,
         maxY = 0;
     var x, y;
@@ -187,16 +179,15 @@ function drawSide() {
     function add(xn, yn, noWriteMarker) {
         x = xn;
         y = yn;
-		var aa = getActualRowAngle();
 		for (var i = 0; i < panels.length; i++){
-			var aa = getActualRowAngle(i);
+		var aa = getActualRowAngle(i);
 		}
 
-        maxX = Math.max(maxX, xn);
-            if ((maxX > backPanelLocation) && (aa < 91)){
-                backPanelLocation = maxX;
-			    };
-		console.info("Back panel loc:", backPanelLocation, " aa: ", aa);
+    maxX = Math.max(maxX, xn);
+        if ((maxX > backPanelLocation) && (aa < 91)) {
+          backPanelLocation = maxX;
+        };
+		console.info("MaxX: ", maxX, " Back panel loc:", backPanelLocation, " aa: ", aa);
         maxY = Math.max(maxY, yn);
         p.push(xn, yn);
         if (noWriteMarker) {
@@ -210,21 +201,20 @@ function drawSide() {
             coords: [],
         };
     });
-    console.info("panels", panels, "rowAngles", rowAngles);
 
 	// Set the starting point of the drawing
 
     var frontPieceOutline = [];
     var backPieceOutline = [];
 
-    add(xStart, 0);	//0, 0
+    add(prow(), 0);
 
-    // bottom panel goes underneath the sides, front, and back
+    // Front panel goes up from the starting point
 
     var frontHeight = useStaticRise
         ? actualPanelDepth
         : Math.abs(actualPanelDepth * Math.sin(Math.PI / 2 - rad(firstAngle)));
-    add(x, y + frontHeight);
+    add(0, y + frontHeight);
 	console.info("y+fht: ", y+frontHeight);
 
     // Add the points for drawing the dotted line representing the cardboard
@@ -233,13 +223,15 @@ function drawSide() {
         x + Math.cos(rad(firstAngle)) * caseMaterialThickness,
         y + Math.sin(rad(firstAngle)) * caseMaterialThickness
     );
-    frontPieceOutline.push(x + Math.cos(rad(firstAngle)) * caseMaterialThickness, 0);
-    frontPieceOutline.push(xStart, 0); // 0, 0
+    frontPieceOutline.push(prow() + Math.cos(rad(firstAngle)) * caseMaterialThickness, 0);
+    frontPieceOutline.push(prow(), 0); // 0, 0
     add(
         x + Math.cos(rad(firstAngle)) * caseMaterialThickness,
         y + Math.sin(rad(firstAngle)) * caseMaterialThickness,
         "nowrite"
     );
+
+//  For each row, evaluate the height and get the angle.
 
     rowAngles.forEach((angle, i) => {
         panels[i].coords.push(x, y);
@@ -249,11 +241,10 @@ function drawSide() {
         else {
           actualPanelHeight = rowUnitsH[i] * 44.45;
         };
-        console.info("APH ", actualPanelHeight, " oneUSTD: ", oneUnitStandard);
         add(
             x + Math.cos(rad(getActualRowAngle(i))) * actualPanelHeight,
             y + Math.sin(rad(getActualRowAngle(i))) * actualPanelHeight,
-            // If it is the last row, then the outline will continue for the
+      // If it is the last row, then the outline will continue for the
 			//width of the material, so we'll just write the coord marker at
 			// the end of that instead of the end of the row outline.
             i === rowAngles.length - 1
@@ -283,24 +274,19 @@ function drawSide() {
         y - Math.cos(rad(getActualRowAngle())) * actualPanelDepth
     );
     add(x, 0);
-    add(0, 0);
+    add(prow(), 0);
 
     ctx.setLineDash([1, 5]);
     ctx.beginPath();
     // Draw the base board outline
     drawPath(
         false,
-        0, // X
-        0, // Y
-        backPanelLocation,  // X
-        0,  // Y
-        backPanelLocation,  // X
-        +caseMaterialThickness,  // Y
-        0,  // X
-        +caseMaterialThickness,  // Y
-        0,  // X
-        0  // Y
+        prow()+caseMaterialThickness, // X
+        caseMaterialThickness, // Y
+        maxX-caseMaterialThickness,  // X
+        caseMaterialThickness,  // Y
     );
+    console.info("backPanelLocation", backPanelLocation);
     ctx.closePath();
 
     // draw the front and back side outlines
@@ -350,7 +336,7 @@ function writeSummary(width, height, back, outlinePoints, railScrewCoords) {
     var footnote = [
         "*Note: rail spacing based on the measurements provided by " +
             '<a target="_blank" href="http://www.musicradar.com/tuition/tech/how-to-build-your-own-cardboard-' +
-            "eurorack-modular-case-625196\">Future Music's cardboard DIY case</a> " +
+            "eurorack-modular-case-625196\">Future Music's cardboard DIY case</a><br /> " +
             "using TipTop Audio Z-Rails.",
         "",
     ];
@@ -420,7 +406,7 @@ function writeSummary(width, height, back, outlinePoints, railScrewCoords) {
  */
 function getPlot(x, y) {
     return {
-        x: startX() + x / heightRatio,
+        x: 50 + x / heightRatio,
         y: startY() - y / heightRatio,
     };
 }
@@ -580,7 +566,6 @@ function updateAngles() {
 	for (let i = 0; i < angles.length; i++) {
       const aa = getActualRowAngle(i);
 	    angles[i].innerHTML = " deg. Angle: " + aa;
-      console.info("i: ", i, " angle: ", aa);
    }
 	//focusEl.focus();
 	return;
@@ -636,23 +621,9 @@ function createRowInput(i, uValue, aValue) {
   			const unitIndex = parseInt(event.target.id.split(unitsIdPrefix)[1], 10);
         rowUnitsH[unitIndex] = parseFloat(event.target.value, 10);
   			unitHeight = rowUnitsH[unitIndex];
-  			console.info(
-  				"Unit Index: ", unitIndex,
-  				" rowUnitsH: ", rowUnitsH,
-  				" unitHeight: ", unitHeight,
-  				" Actual panel height: ",
-  				actualPanelHeight
-  			);
 
         const inputIndex = parseInt(event.target.id.split(inputIdPrefix)[1], 10);
         rowAngles[inputIndex] = parseFloat(event.target.value, 10);
-        console.info(
-            "Input change: ",
-            event.target.value,
-            event.target.id,
-            inputIndex,
-            rowAngles
-            );
 
           drawSide();
           updateAngles();
@@ -660,7 +631,7 @@ function createRowInput(i, uValue, aValue) {
     };
     uni.addEventListener("blur", onChange);
 //	  uni.addEventListener("input", onChange);
-//    uni.addEventListener("change", onChange);
+    uni.addEventListener("change", onChange);
     uni.addEventListener("keypress", onChange);
 
 //    inp.addEventListener("input", onChange);
@@ -686,7 +657,6 @@ function createRowInput(i, uValue, aValue) {
  * @param {number} c The row count.
  */
 function resetRowInputs(c) {
-    /*backPanelLocation = 0;*/
     const rowInputs = document.getElementById("row-inputs");
     while (rowInputs.firstChild) {
         rowInputs.removeChild(rowInputs.firstChild);
@@ -734,7 +704,6 @@ function init() {
         }
     });
     rowCountSelector.addEventListener("change", (event) => {
-        console.info("event", event.target.value);
         rowCount = event.target.value;
         resetRowInputs(rowCount);
         drawSide();
@@ -771,18 +740,24 @@ function init() {
     };
     calcRiseCb.addEventListener("change", onCalcRiseChange);
 
-	var firstAngle = rowAngles[0];
+    radioGpFormat = document.getElementsByName("format");
+    const onFormatChange = (event) => {
+      setTimeout(() => {
+        var setFormat = Array.from(radioGpFormat).find(radio => radio.checked);
+        console.info("setFormat: ", setFormat);
+      }, 0);
+    };
+  //  radioGpFormat.addEventListener("change", onFormatChange);
 
 	frontPanelCb = document.getElementById("frontPanel");
-    frontPanelCb.checked = prowTrue;
-    const onFrontPanelChange = (event) => {
-        setTimeout(() => {
-            prowTrue = event.target.checked;
-            drawSide();
+  frontPanelCb.checked = prowTrue;
+  const onFrontPanelChange = (event) => {
+      setTimeout(() => {
+        prowTrue = event.target.checked;
+        drawSide();
         }, 0);
     };
     frontPanelCb.addEventListener("change", onFrontPanelChange);
-	prowTrue ? xStart = 20 : xStart = 0;
 
 	standardHtCb = document.getElementById("standardHt");
     const onStandardHtChange = (event) => {
@@ -792,6 +767,8 @@ function init() {
         }, 0);
     };
     standardHtCb.addEventListener("change", onStandardHtChange);
+
+    var firstAngle = rowAngles[0];
 
     matThickness = document.getElementById("material-thickness");
     matThickness.value = caseMaterialThickness;
@@ -830,10 +807,8 @@ function init() {
     drawSide();
 
     window.onresize = function () {
-        backPanelLocation = 0;
         w = canvasDiv.clientWidth;
         h = canvasDiv.clientHeight;
-        // console.info(w,h);
         canvas.width = w*.8;
         canvas.height = h*.8;
         ctx.clearRect(0, 0, w, h);
@@ -1098,7 +1073,6 @@ function openFile () {
 
 // CREATE FILEPICKER
 
-
 // (B) READ CSV ON FILE PICK  */
 picker.onchange = () => reader.readAsText(picker.files[0]);
 
@@ -1125,7 +1099,6 @@ reader.onloadend = () => {
     }
   };
 };
-
 
 function download_csv(csv, filename) {
     var csvFile;
