@@ -161,8 +161,10 @@ function getActualRowAngle(r) {
 }
 
 /**
- * Draws the side silhouette of the case.
- */
+ * Draws the side silhouette of the case.  The lines are drawn from the starting
+ * point clockwise.  The front panel is drawn bottom to top, each row panel is
+ * added in turn and then the back and bottom are included to finish off the drawing.
+ **/
 function drawSide() {
     var firstAngle = rowAngles[0];
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -209,13 +211,12 @@ function drawSide() {
 
     add(prow(), 0);
 
-    // Front panel goes up from the starting point
+    // Front panel goes up from the starting point.
 
     var frontHeight = useStaticRise
         ? actualPanelDepth
         : Math.abs(actualPanelDepth * Math.sin(Math.PI / 2 - rad(firstAngle)));
     add(0, y + frontHeight);
-	console.info("y+fht: ", y+frontHeight);
 
     // Add the points for drawing the dotted line representing the cardboard
     // piece for the case front on the inside of the front panel.
@@ -224,14 +225,14 @@ function drawSide() {
         y + Math.sin(rad(firstAngle)) * caseMaterialThickness
     );
     frontPieceOutline.push(prow() + Math.cos(rad(firstAngle)) * caseMaterialThickness, 0);
-    frontPieceOutline.push(prow(), 0); // 0, 0
+    frontPieceOutline.push(prow(), 0);
     add(
         x + Math.cos(rad(firstAngle)) * caseMaterialThickness,
         y + Math.sin(rad(firstAngle)) * caseMaterialThickness,
         "nowrite"
     );
 
-//  For each row, evaluate the height and get the angle.
+//  For each row, evaluate the height and angle.  Add new coordinates.
 
     rowAngles.forEach((angle, i) => {
         panels[i].coords.push(x, y);
@@ -249,15 +250,15 @@ function drawSide() {
 			// the end of that instead of the end of the row outline.
             i === rowAngles.length - 1
         );
-        panels[i].coords.push(x, y);
+        panels[i].coords.push(x, y); //x, y
     });
 
     // Add the points for drawing the dotted line representing the cardboard
-    // piece for the case back on the inside of the back panel.
+    // piece for the case back on the right side of the side panel.
     backPieceOutline.push(x, y);
     // Now get the *inside* x position of the back of the case. We will add the
-	//material thickness to this below.
-    const backWallInside = x + Math.sin(rad(getActualRowAngle())) * actualPanelDepth;
+    //material thickness to this below.
+    const backWallInside = maxX + Math.sin(rad(getActualRowAngle())) * actualPanelDepth; 
     backPieceOutline.push(
         backWallInside,
         y - Math.cos(rad(getActualRowAngle())) * actualPanelDepth
@@ -268,17 +269,19 @@ function drawSide() {
         x + Math.cos(rad(getActualRowAngle())) * caseMaterialThickness,
         y + Math.sin(rad(getActualRowAngle())) * caseMaterialThickness
     );
-
+    // Top of back panel
     add(
         backWallInside + caseMaterialThickness,
         y - Math.cos(rad(getActualRowAngle())) * actualPanelDepth
     );
+    // Bottom of back panel.  Line down to case bottom.  Bottom right point
     add(x, 0);
+    // Case bottom back to the starting point
     add(prow(), 0);
 
     ctx.setLineDash([1, 5]);
     ctx.beginPath();
-    // Draw the base board outline
+    // Draw the dotted lines on the bottom of the case.
     drawPath(
         false,
         prow()+caseMaterialThickness, // X
@@ -286,7 +289,7 @@ function drawSide() {
         maxX-caseMaterialThickness,  // X
         caseMaterialThickness,  // Y
     );
-    console.info("backPanelLocation", backPanelLocation);
+    console.info("draw backPanelLocation", backPanelLocation);
     ctx.closePath();
 
     // draw the front and back side outlines
