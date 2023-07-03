@@ -14,7 +14,6 @@ var actualPanelHeight = rowUnitsH[i] * 44.45;
 var actualRailSeparation = actualPanelHeight - 10; //mm
 var actualRailDepth = 14; //mm
 var actualPanelDepth = 60; //mm
-var backPanelLocation;
 var bod = document.querySelector("body");
 var caseMaterialThickness = 5;
 var color1 = document.querySelector(".color1");
@@ -27,6 +26,7 @@ var hpBx = 16;  //mm or .63 in
 var hpEuro = 5.08; //mm or .2 in
 var hpSerge = 25.4; //mm or 1 in
 var maxY = 150;
+var metric = true;
 var pxDepth = 300 / maxY;
 var panelHeight = actualPanelHeight * pxDepth;
 var heightRatio = actualPanelHeight / panelHeight;
@@ -172,7 +172,6 @@ function drawSide() {
     ctx.strokeStyle = "#999999";
     ctx.setLineDash([]); //([1, 5]);
 
-	  var backPanelLocation = 0;
     var maxX = 0,
         maxY = 0;
     var x, y;
@@ -186,15 +185,11 @@ function drawSide() {
 		}
 
     maxX = Math.max(maxX, xn);
-        if ((maxX > backPanelLocation) && (aa < 91)) {
-          backPanelLocation = maxX;
-        };
-		console.info("MaxX: ", maxX, " Back panel loc:", backPanelLocation, " aa: ", aa);
-        maxY = Math.max(maxY, yn);
-        p.push(xn, yn);
-        if (noWriteMarker) {
-            p.push(noWriteMarker);
-        }
+    maxY = Math.max(maxY, yn);
+    p.push(xn, yn);
+      if (noWriteMarker) {
+          p.push(noWriteMarker);
+      }
     }
 
     panels = rowAngles.map((r, i) => {
@@ -258,7 +253,7 @@ function drawSide() {
     backPieceOutline.push(x, y);
     // Now get the *inside* x position of the back of the case. We will add the
     //material thickness to this below.
-    const backWallInside = maxX + Math.sin(rad(getActualRowAngle())) * actualPanelDepth; 
+    const backWallInside = maxX + caseMaterialThickness + Math.sin(rad(getActualRowAngle())) * actualPanelDepth;
     backPieceOutline.push(
         backWallInside,
         y - Math.cos(rad(getActualRowAngle())) * actualPanelDepth
@@ -289,7 +284,6 @@ function drawSide() {
         maxX-caseMaterialThickness,  // X
         caseMaterialThickness,  // Y
     );
-    console.info("draw backPanelLocation", backPanelLocation);
     ctx.closePath();
 
     // draw the front and back side outlines
@@ -307,7 +301,8 @@ function drawSide() {
     const pathCoords = p.slice(0);
     drawPath(p);
 
-    writeSummary(maxX, maxY, backPanelLocation, pathCoords, railScrewCoords);
+    writeSummary(maxX, maxY, pathCoords, railScrewCoords);
+    console.info("Done.")
 }
 
 /**
@@ -319,7 +314,7 @@ function drawSide() {
  * @param {array} outlinePoints
  * @param {array} railScrewCoords
  */
-function writeSummary(width, height, back, outlinePoints, railScrewCoords) {
+function writeSummary(width, height, outlinePoints, railScrewCoords) {
     var cabinetInfo = [
         "Cabinet depth and height: ",
         actualDistance(width, true) + " x " + actualDistance(height, true),
@@ -329,13 +324,12 @@ function writeSummary(width, height, back, outlinePoints, railScrewCoords) {
         actualDistance(actualPanelHeight, true),
     ];
     var panelDepthInfo = ["Panel depth used: ", actualDistance(actualPanelDepth, true)];
-    var backPanelInfo = ["Max depth of back panel: ", roundToPlace(back, 2)];
     var railDepthInfo = ["Rails depth inset: ", actualDistance(actualRailDepth, true)];
     var railSpacingInfo = [
         "Rail screw spacing*: ",
         actualDistance(actualRailSeparation, true),
     ];
-    let totalRowtation = [`Top row absolute rotation: `, `${getActualRowAngle()}`];
+    let totalRotation = [`Top row absolute rotation: `, `${getActualRowAngle()}`];
     var footnote = [
         "*Note: rail spacing based on the measurements provided by " +
             '<a target="_blank" href="http://www.musicradar.com/tuition/tech/how-to-build-your-own-cardboard-' +
@@ -348,10 +342,9 @@ function writeSummary(width, height, back, outlinePoints, railScrewCoords) {
         panelHeightInfo,
         //oneUHeightInfo,
         panelDepthInfo,
-        backPanelInfo,
         railDepthInfo,
         railSpacingInfo,
-        totalRowtation,
+        totalRotation,
         footnote,
     ];
     // console.info(info.map(function(a) {
@@ -363,12 +356,26 @@ function writeSummary(width, height, back, outlinePoints, railScrewCoords) {
         })
         .join("<br/>");
 
+// Process the coordinates of the outline.  Here we get the information for the
+// report bottom right of the page.
     function processCoords(outlinePoints) {
         const ops = outlinePoints.slice(0);
         const s = [];
         while (ops.length > 0) {
+          if (metric = "true") {
             const x = `${roundToPlace(ops.shift(), 1)}mm`;
             const y = `${roundToPlace(ops.shift(), 1)}mm`;
+            if (typeof ops[0] !== "number") {
+                ops.shift();
+              }
+             else {
+                s.push(`(${x}, ${y})`);
+            }
+          }
+          else {
+            // x and y need to be divided by 25.4 to get the inch measure.
+            const x = `${roundToPlace(ops.shift(), 1)}in`;
+            const y = `${roundToPlace(ops.shift(), 1)}in`;
             if (typeof ops[0] !== "number") {
                 ops.shift();
             } else {
@@ -376,15 +383,23 @@ function writeSummary(width, height, back, outlinePoints, railScrewCoords) {
             }
         }
         return s.join(", ");
+      }
     }
 
     function processRailScrewCoords(railScrewCoords) {
         const rsc = railScrewCoords.slice(0);
         const s = [];
         while (rsc.length > 0) {
+          if (metric = 'true') {
             s.push(
                 `(${roundToPlace(rsc.shift(), 1)}mm, ${roundToPlace(rsc.shift(), 1)}mm)`
             );
+          }
+          else {
+            s.push(
+                `(${roundToPlace(rsc.shift(), 1)}in, ${roundToPlace(rsc.shift(), 1)}in)`
+            );
+          }
         }
         return s.join(", ");
     }
@@ -530,7 +545,6 @@ function drawPath(pts) {
     while (pts.length > 0) {
         var x = pts.shift();
         var y = pts.shift();
-        // console.info(x, y, pts[0]);
         lineTo(x, y);
         if (typeof pts[0] === "number") {
             if (shouldWriteCoords) {
@@ -723,11 +737,11 @@ function init() {
     inputDepth.addEventListener("input", onModuleDepthChange);
 
     measureCb = document.getElementById("measure");
-    measureCb.checked = showInches;
+    measureCb.checked = metric;
     const onMeasureChange = (event) => {
         setTimeout(() => {
+            metric = event.target.checked;
             showInches = !event.target.checked;
-			console.info("showInches: ", showInches);
             drawSide();
         }, 0);
     };
