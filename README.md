@@ -1,6 +1,5 @@
 # RackDesigner
 # Modular Synth Rack Designer
-# Eurorack, #Buchla, #BX, #Serge, #2D
 
    All Glory, Honor, and Praise to God the Father, God the Son and God the Holy Spirt.
 
@@ -52,4 +51,6 @@ TO DO:
 See: https://github.com/Bloodaxe980/RackDesigner/issues for a current list of known issues.
 
 *****************************
-https://www.buymeacoffee.com/RackDesigner
+#buymeacoffee https://www.buymeacoffee.com/RackDesigner
+
+# Eurorack, #Buchla, #BX, #Serge, #2D
