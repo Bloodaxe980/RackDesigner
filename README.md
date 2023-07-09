@@ -1,9 +1,10 @@
 # RackDesigner
 # Modular Synth Rack Designer
+# Eurorack, #Buchla, #BX, #Serge, #2D
 
    All Glory, Honor, and Praise to God the Father, God the Son and God the Holy Spirt.
 
-An app for designing a modular synthisizer rack.  Use it to visualize the angles for your case and gauge the volume of
+An app for designing a modular synthesizer rack.  Use it to visualize the angles for your case and gauge the volume of
 space the case will consume.
 
 *****************************
@@ -31,7 +32,7 @@ NOTE: There are many items which are currently not functional i.e. convert from 
 
 There are several adjustable parameters in the designer.
 
-The module depth max signifies the deepest module you wish to support in the case, which is set by default to 55mm. Note the
+The module depth max signifies the deepest module you wish to support in the case, which is set by default to 60mm. Note the
 "calculate needed rise" toggle -- if selected, this calculates the necessary rise at the front of the case to accomodate the
 module depth. If there is an angle greater than zero for the first row of modules, the full module depth may not be needed.
 (if your first angle is 30 degrees, 47.6mm is sufficient for 55mm clearance)
@@ -42,10 +43,13 @@ If we set row-3 to 30 degrees this is added to the previous for a total of a 60 
 
 Material thickness is set by default to 5mm -- this indicates the thickness of the material used for the case.
 
-Pixel depth  -- allows the user to change the size of the case design on the screen. It can be used to accomodate changes in
+Pixel depth  -- allows the user to change the size of the case design on the screen. It can be used to accommodate changes in
 window size.
 
 *****************************
 TO DO:
 
 See: https://github.com/Bloodaxe980/RackDesigner/issues for a current list of known issues.
+
+*****************************
+https://www.buymeacoffee.com/RackDesigner
