@@ -24,10 +24,9 @@ used on the bottom of the case as well as the front and back of the case to show
 is based on the Future Music guide's 5mm cardboard thickness.  Material thickness can be changed.
 
 ## Parameters
-
-*****************************
+<blockquote>
 NOTE: There are many items which are currently not functional i.e. convert from metric to inch, background theme, 3D
-*****************************
+</blockquote>
 
 There are several adjustable parameters in the designer.
 
@@ -37,8 +36,7 @@ module depth. If there is an angle greater than zero for the first row of module
 (if your first angle is 30 degrees, 47.6mm is sufficient for 55mm clearance)
 
 Row angles are compounding i.e. if we set row-1 at 10 degrees from 0, and row-2 at 20 degrees of rotation from row-1 we get a
-total of a 30 degree angle from 0 for row-2.  Row-3 builds off of row-2 so the starting angle in this example is 30 degrees.  
-If we set row-3 to 30 degrees this is added to the previous for a total of a 60 degree angle from 0.
+total of a 30 degree angle from 0 for row-2.  Row-3 builds off of row-2 so the starting angle in this example is 30 degrees.  If we set row-3 to 30 degrees this is added to the previous for a total of a 60 degree angle from 0.
 
 Material thickness is set by default to 5mm -- this indicates the thickness of the material used for the case.
 
@@ -46,13 +44,14 @@ Pixel depth  -- allows the user to change the size of the case design on the scr
 window size.
 
 *****************************
-TO DO:
+## To Do:
 
 See: https://github.com/Bloodaxe980/RackDesigner/issues for a current list of known issues.
 
 *****************************
 #buymeacoffee https://www.buymeacoffee.com/RackDesigner
-
+<center>
 <a href="https://www.buymeacoffee.com/RackDesigner"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=RackDesigner&button_colour=40DCA5&font_colour=ffffff&font_family=Bree&outline_colour=000000&coffee_colour=FFDD00" /></a>
+</center>
 
-# Eurorack, #Buchla, #BX, #Serge, #2D
+#Eurorack, #Buchla, #BX, #Serge, #2D
