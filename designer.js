@@ -333,7 +333,7 @@ function writeSummary(width, height, outlinePoints, railScrewCoords) {
     var footnote = [
         "*Note: rail spacing based on the measurements provided by " +
             '<a target="_blank" href="http://www.musicradar.com/tuition/tech/how-to-build-your-own-cardboard-' +
-            "eurorack-modular-case-625196\">Future Music's cardboard DIY case</a><br /> " +
+            "eurorack-modular-case-625196\">Future Music's cardboard DIY case</a> " +
             "using TipTop Audio Z-Rails.",
         "",
     ];
@@ -347,9 +347,6 @@ function writeSummary(width, height, outlinePoints, railScrewCoords) {
         totalRotation,
         footnote,
     ];
-    // console.info(info.map(function(a) {
-    //     return a.join("\t");
-    // }).join("\n"));
     document.getElementById("summary-div").innerHTML = info
         .map(function (a) {
             return a[0] + "<b>" + a[1] + "</b>";
