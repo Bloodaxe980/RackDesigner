@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Rack Designer 0.2</title>
+        <title>Rack Designer 0.2.2</title>
         <link rel="icon" type="image/x-icon" href="rackdesigner.ico">
         <link rel="stylesheet" href="moretoggles.min.css">
 		    <link rel="stylesheet" href="designer.css" />
@@ -32,8 +32,8 @@
 						<fieldset id="background">
 						<legend>Background</legend>
 						Closed &nbsp;
-						<div class="mt-normal-garden" style="font-size: 6px;">
-							<input type="checkbox" name="open" id="open" onclick="lookCb()" /><label for="open"></label>
+						<div class="mt-check-garden" style="font-size: 6px;">
+							<input type="checkbox" name="open" id="open" onclick="showHide('look')" /><label for="open"></label>
 						</div> &nbsp; Open
 							</fieldset>
 						<div id="look" class="hide">
@@ -77,7 +77,7 @@
 					</fieldset><p />
 					<fieldset id="dimensions">
 						<legend>Dimensions</legend>
-						2D &nbsp; <div class="mt-normal-garden" style="font-size: 6px;"><input type="checkbox" name="dim" id="2D" value="true" onclick="showHide('viewsSet')" /><label for="2D"></label></div>&nbsp; 3D
+						2D &nbsp; <div class="mt-check-garden" style="font-size: 6px;"><input type="checkbox" name="dim" id="2D" value="true" onclick="showHide('viewsSet')" /><label for="2D"></label></div>&nbsp; 3D
 					</fieldset><p />
 					<div id="viewsSet" class="hide">
 					<fieldset id="myViews" name="myViews" >
@@ -94,7 +94,29 @@
 						<input type="radio" name="view" id="bottom" value="bottom" ><label for="bottom">Bottom</label>
 
 					</fieldset>
-					<p></p>
+					<p />
+          <fieldset id="rackFormat">
+						<legend>HP Format</legend>
+						Buchla <input type="radio" name="format" id="buchla" value="108" title="108mm"  /> &nbsp;
+						BX <input type="radio" name="format" id="bx" value="16" title="16mm"  /> &nbsp;
+            &nbsp; <nobr>Serge&nbsp;<input type="radio" name="format" id="serge" value="25.4" title="25.4mm" /></nobr>
+						&nbsp; Eurorack <input type="radio" name="format" id="eurorack" value="5.08" title="5.08mm" checked  />
+						&nbsp; Mixed <input type="radio" name="format" id="mixed" value="1" title="1mm"  />
+						&nbsp;
+					</fieldset>
+					<p />
+          <div id="div1u">
+          <fieldset id="oneUht">
+						<legend>1 Unit Standard    </legend>
+						Intelijel &nbsp; <div class="frontPanel mt-normal-garden" style="font-size: 6px;"><input type="checkbox" name="standardHt" id="standardHt"  /><label for="standardHt"></label>
+						</div>&nbsp; Pulp Logic
+					</fieldset>
+					<p />
+        </div>
+        <span class="input-span">
+          Side thickness: &nbsp;<input type="number" id="sideWall" name="sideWall" maxlength="3" size="3" value="5" min="0" />
+        </span>
+          <p />
 					<span class="input-span">
 						HP: &nbsp;<input type="number" id="hpCount" name="hpCount" maxlength="3" size="3" value="84" min="12" max="840" step="1" />
 					</span>
@@ -104,32 +126,16 @@
 						Module Depth Max:&nbsp;
 						<input id="the-input-depth" value="0" size="4" maxlength="4" />
 						<span class="input-span unit">mm</span><p></p>
-						Calculate needed rise: &nbsp;<div class="input-span mt-check-garden" style="font-size: 6px;">
+						Calculate needed rise: &nbsp;<div class="mt-normal-garden" style="font-size: 6px;">
 							<input type="checkbox" id="calcRise" /><label for="calcRise"></label>
 						</div>
 					</span><p />
-					<fieldset id="rackFormat">
-						<legend>Format</legend>
-						Buchla <input type="radio" name="format" id="buchla" value="buchla"  /> &nbsp;
-						BX <input type="radio" name="format" id="bx" value="bx"  /> &nbsp;
-						&nbsp; Eurorack <input type="radio" name="format" id="eurorack" value="eurorack" checked  />
-						&nbsp; <nobr>Serge&nbsp;<input type="radio" name="format" id="serge" value="serge"  /></nobr>
-						&nbsp; Mixed <input type="radio" name="format" id="mixed" value="mixed"  />
-						&nbsp;
-					</fieldset>
-					<p />
 					</div>
 					<fieldset>
 						<legend>Front Panel</legend>
 						Vertical &nbsp; <div class="frontPanel mt-normal-garden" style="font-size: 6px;"><input type="checkbox" name="frontPanel" id="frontPanel"  /><label for="frontPanel"></label>
 						</div>&nbsp; Prow
 					</fieldset><p />
-					<fieldset id="oneUht">
-						<legend>1 Unit Standard    </legend>
-						Intelijel &nbsp; <div class="frontPanel mt-normal-garden" style="font-size: 6px;"><input type="checkbox" name="standardHt" id="standardHt"  /><label for="standardHt"></label>
-						</div>&nbsp; Pulp Logic
-					</fieldset>
-					<p />
 					<span class="input-span">
 						Row count:&nbsp;
 						<select name="rowCount" id="rowCount"></select>
@@ -155,9 +161,9 @@
 						</div>&nbsp; Fit Window
 					</fieldset><br />
           <fieldset id="material">
-						<legend>Material List</legend>
+  						<legend>Material List</legend>
 						Close &nbsp;
-						<div class="format mt-normal-garden" style="font-size: 6px;"><input type="checkbox" name="matList" id="matList" onclick="showHide('materials')"  /><label for="matList"></label>
+						<div class="format mt-check-garden" style="font-size: 6px;"><input type="checkbox" name="matList" id="matList" onclick="showHide('materials')"  /><label for="matList"></label>
 						</div>&nbsp; Open
 					</fieldset>
         <p><a class="btn" href="https://modulargrid.net" target="_blank">Modular Grid</a></p>

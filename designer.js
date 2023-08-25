@@ -1,13 +1,12 @@
 /*JavaScript*/
+/* v 0.2.1 */
 /*jslint node: true */
 
 "use strict";
 
-var canvas, canvasDiv, calcRiseCb, ctx, e,frontPanelCb, h, init, input,
-    inputDepth, matThickness, measureCb, price, pxDepthInput, quantity,
-    radioGpFormat, roundToPlace, setStandard, showInches, standardHtCb,
-    w, xStart;
-
+var canvas, canvasDiv, calcRiseCb, ctx, e, frontPanelCb, h, hpFormat,
+    init, input, inputDepth, matThickness, measureCb, price, pxDepthInput,
+    quantity, roundToPlace, setStandard, showInches, standardHtCb, w, xStart;
 var i = 0;
 var rowUnitsH = [3, 3, 1];
 var actualPanelHeight = rowUnitsH[i] * 44.45;
@@ -21,16 +20,11 @@ var color2 = document.querySelector(".color2");
 var defaultAngle = 10;
 var defaultUnit = 3;
 var eID = "";
-var hpBuchla = 108; //mm or 4.25 in
-var hpBx = 16;  //mm or .63 in
-var hpEuro = 5.08; //mm or .2 in
-var hpSerge = 25.4; //mm or 1 in
 var maxY = 150;
 var metric = true;
-var pxDepth = 300 / maxY;
+var pxDepth = 2;   // consider this a multiplyer i.e. .5 = 50%, 2 = 200%
 var panelHeight = actualPanelHeight * pxDepth;
 var heightRatio = actualPanelHeight / panelHeight;
-var hp = hpEuro;
 var unitInt = 39.65; //mm
 var oneUnit = 44.45; //mm
 var oneUnitStandard = unitInt;
@@ -66,10 +60,7 @@ slider.oninput = function () {
 function showHide(eID) {
 	var element = document.getElementById(eID);
 	element.classList.toggle("hide");
-}
-
-function lookCb() {
-    showHide("look");
+  drawSide;
 }
 
 function themeCb() {
@@ -84,15 +75,15 @@ var frontHeight = useStaticRise
     : Math.abs(actualPanelDepth * Math.sin(Math.PI / 2 - rad(firstAngle)));
 
 // Get selected format
-/*function tuneRadio() {
-    var radios = document.getElementsByName("format");
-    var selected = Array.from(radios).find(radio => radio.checked);
-    var station = selected.value;
-    console.info("station: ", station);
-}
-radios.addEventListener("change", tuneRadio);*/
-
-
+//
+function rackFormat () {
+  var format = document.getElementsByName("format");
+  for (i = 0; i < format.length; i++) {
+              if (format[i].checked)
+                  console.info("format: ", format);
+          }
+      }
+  //rackFormat.addEventListener("change", onChange);
 
 // Given one leg and the angle opposite the missing segment, find the missing leg of a right triangle
 function trig90(leg, angleOpp) {
@@ -101,7 +92,7 @@ function trig90(leg, angleOpp) {
       return missing;
     }
 
-// Horizontal starting position on the canvas
+// Horizontal starting position of the base on the canvas
 function prow() {
 	var sx;
 	if (prowTrue) {
@@ -304,6 +295,27 @@ function drawSide() {
     writeSummary(maxX, maxY, pathCoords, railScrewCoords);
     console.info("Done.")
 }
+// End of drawSide function.
+
+function draw3D() {
+  let hp = document.getElementById('hpCount').value;
+
+	let inside = hpFormat * hp;
+	console.info("HP length: ", inside);
+	//separation of left and right sides of case equals the total HP from
+  //inside left to inside right.
+  let sideThickness = document.getElementById("sideWall").value;
+	var overAllWidth = inside + (sideThickness * 2);
+
+  let sideSeparation = hpFormat * hp;
+  console.info("sideSeparation: ", sideSeparation);
+
+
+}
+// End of draw3D function.
+
+
+
 
 /**
  * Writes out the summary data for the case.
@@ -320,8 +332,7 @@ function writeSummary(width, height, outlinePoints, railScrewCoords) {
         actualDistance(width, true) + " x " + actualDistance(height, true),
     ];
     var panelHeightInfo = [
-        "3U panel height: ",
-        actualDistance(actualPanelHeight, true),
+        "1U panel height: ", oneUnitStandard,
     ];
     var panelDepthInfo = ["Panel depth used: ", actualDistance(actualPanelDepth, true)];
     var railDepthInfo = ["Rails depth inset: ", actualDistance(actualRailDepth, true)];
@@ -754,14 +765,24 @@ function init() {
     };
     calcRiseCb.addEventListener("change", onCalcRiseChange);
 
-    radioGpFormat = document.getElementsByName("format");
-    const onFormatChange = (event) => {
-      setTimeout(() => {
-        var setFormat = Array.from(radioGpFormat).find(radio => radio.checked);
-        console.info("setFormat: ", setFormat);
-      }, 0);
-    };
-  //  radioGpFormat.addEventListener("change", onFormatChange);
+    let radView = document.querySelectorAll("input[name=view]");
+    radView.forEach(rb=>rb.addEventListener("change", function(){
+      let view = this.value;
+    }));
+
+    let radFormats = document.querySelectorAll("input[name=format]");
+    radFormats.forEach(rb=>rb.addEventListener("change", function() {
+      let sid = this.id;
+      let d1 = document.getElementById('div1u');
+      if (sid == "eurorack" || sid == "mixed") {
+        d1.style.display = 'block';
+      }
+      else {
+        d1.style.display = 'none';
+      };
+      let hpFormat = this.value;
+    }));
+    draw3D();
 
 	frontPanelCb = document.getElementById("frontPanel");
   frontPanelCb.checked = prowTrue;
@@ -811,8 +832,8 @@ function init() {
     ctx = canvas.getContext("2d");
     w = canvasDiv.clientWidth;
     h = canvasDiv.clientHeight;
-    canvas.width = w*.8;
-    canvas.height = h*.8;  // h
+    canvas.width = w*.75;  // w;
+    canvas.height = h*.75;  // h;
     ctx.fillStyle = "rgb(0, 0, 0)";
     ctx.strokeStyle = "#999999";
 
@@ -1202,10 +1223,6 @@ function getQuantity (qt) {
 }
 
 /*
-function scale (var s){
-    var img = drawSide();
-    (s = "fit") ? drawImageScaled;
-}
 
 function drawImageScaled(img, ctx) {
    var canvas = ctx.canvas ;
@@ -1231,13 +1248,5 @@ redraw obj */
     set a horizon line at 2/5 the height of the canvas.  Paint the top half a
     gradiant of white to dark blue, pain the bottom half a texture of dark gray.
     r = (distance frontBotLeft, backTopRight)/2;
-}
-
-function 3D(){
-	let inside = hp * hpCount;
-	console.info("HP length: ", inside);
-	//separation of left and right sides of case equals the total HP from inside
-  left to inside right.
-	var overAllWidth = inside + (sideThickness * 2);
 }
 */
