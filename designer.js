@@ -617,9 +617,9 @@ function createRowInput(i, uValue, aValue) {
     uni.className = "number";
 	//uni.type = number;  //crashes the program
     uni.value = uValue;
-    uni.size = 1;
+    uni.size = 2;
     uni.maxlength = 1;
-	  uni.max = 4;
+	  uni.max = 7;
 	  uni.min = 1;
 	  uni.step = 1;
     uni.id = `${unitsIdPrefix}${i}`;
